@@ -1,0 +1,315 @@
+.home-welcome {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 2px solid var(--color-trans-white);
+    border-radius: var(--radius-card);
+    background:
+        repeating-linear-gradient(transparent 0 35px, var(--color-line) 36px),
+        var(--color-paper);
+    box-shadow: var(--shadow-paper);
+}
+
+.home-welcome .eyebrow {
+    margin: 0 0 0.65rem;
+    color: var(--color-link);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.home-welcome h1 {
+    max-width: 42rem;
+    margin: 0;
+    color: var(--color-ink);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+}
+
+.welcome-decoration {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    transform: rotate(12deg);
+    color: var(--color-trans-pink);
+    font-size: clamp(3rem, 8vw, 6rem);
+}
+
+.home-tools-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
+    align-items: start;
+    gap: 1.25rem;
+    margin-top: 2rem;
+}
+
+.home-todo-note,
+.home-sos-note {
+    min-width: 0;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    border: 2px solid var(--color-trans-white);
+    border-radius: 1.5rem;
+    background:
+        repeating-linear-gradient(
+            transparent 0 2rem,
+            var(--color-line) 2.05rem
+        ),
+        var(--color-paper);
+    box-shadow: var(--shadow-sticker);
+}
+
+.home-todo-note {
+    position: relative;
+    align-self: start;
+}
+
+.home-note-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px dashed var(--color-trans-pink);
+}
+
+.home-note-heading .eyebrow,
+.home-sos-note .eyebrow {
+    margin: 0 0 0.3rem;
+    color: var(--color-link);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.home-note-heading h2 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+.home-note-decoration {
+    display: grid;
+    width: 2.7rem;
+    height: 2.7rem;
+    place-items: center;
+    transform: rotate(-12deg);
+    border-radius: 50%;
+    background: var(--color-pink-surface);
+    color: var(--color-link);
+    font-size: 1.5rem;
+}
+
+.home-todo-list {
+    display: grid;
+    gap: 0.4rem;
+    min-height: 5.7rem;
+    margin: 0.7rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.home-todo-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: 2.7rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid rgb(185 233 250 / 70%);
+}
+
+.home-todo-item form {
+    display: flex;
+    flex: 0 0 auto;
+}
+
+.home-todo-complete {
+    display: grid;
+    width: 1.35rem;
+    height: 1.35rem;
+    place-items: center;
+    padding: 0;
+    border: 1.5px solid var(--color-link);
+    border-radius: 50%;
+    background: var(--color-paper);
+    cursor: pointer;
+}
+
+.home-todo-complete:hover {
+    background: var(--color-mint);
+}
+
+.home-todo-complete span {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: var(--color-trans-pink);
+}
+
+.home-todo-text {
+    min-width: 0;
+    flex: 1;
+    overflow-wrap: anywhere;
+    color: var(--color-ink);
+    font-size: 0.92rem;
+}
+
+.home-todo-open,
+.home-task-pagination a {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--color-link);
+}
+
+.home-todo-open:hover,
+.home-task-pagination a:hover {
+    background: var(--color-blue-surface);
+}
+
+.home-todo-open svg,
+.home-task-pagination svg,
+.home-sos-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+.home-todo-empty {
+    min-height: 5.7rem;
+    margin: 0;
+    padding: 1rem 0;
+    color: var(--color-ink-muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.home-note-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.65rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.home-task-pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-ink-muted);
+    font-size: 0.75rem;
+}
+
+.home-sos-note {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    align-self: start;
+    gap: 0.8rem;
+    border-color: var(--color-trans-white);
+    background:
+        radial-gradient(circle at 90% 8%, rgb(245 169 184 / 35%), transparent 35%),
+        repeating-linear-gradient(
+            transparent 0 2rem,
+            var(--color-line) 2.05rem
+        ),
+        var(--color-paper);
+    color: var(--color-ink);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.home-sos-note:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-menu);
+    color: var(--color-ink);
+}
+
+.home-sos-icon {
+    display: grid;
+    width: 3.1rem;
+    height: 3.1rem;
+    place-items: center;
+    border: 1px dashed var(--color-trans-pink);
+    border-radius: 1rem;
+    background: var(--color-lavender-surface);
+    color: var(--color-link);
+}
+
+.home-sos-icon svg {
+    width: 1.7rem;
+    height: 1.7rem;
+}
+
+.home-sos-note strong {
+    font-size: 1.35rem;
+    line-height: 1.2;
+}
+
+.home-sos-note > span:not(.home-sos-icon, .eyebrow) {
+    color: var(--color-ink-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.home-sos-link {
+    margin-top: auto;
+    color: var(--color-link);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.home-sos-link span {
+    display: inline-block;
+    margin-left: 0.2rem;
+    font-size: 1.2rem;
+    transition: transform 180ms ease;
+}
+
+.home-sos-note:hover .home-sos-link span {
+    transform: translateX(0.2rem);
+}
+
+@media (max-width: 520px) {
+    .home-welcome {
+        padding: 1.5rem 1.15rem;
+        border-radius: 1.5rem;
+    }
+
+    .welcome-decoration {
+        top: 0.5rem;
+        right: 0.75rem;
+        opacity: 0.65;
+    }
+
+    .home-welcome h1 {
+        position: relative;
+        z-index: 1;
+    }
+
+    .home-tools-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .home-todo-note,
+    .home-sos-note {
+        border-radius: 1.2rem;
+    }
+
+}
+
+@media (min-width: 521px) and (max-width: 760px) {
+    .home-tools-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+}

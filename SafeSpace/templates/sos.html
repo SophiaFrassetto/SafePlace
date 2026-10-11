@@ -1,0 +1,85 @@
+{% extends "base_app.html" %}
+{% load static %}
+{% block title %}SOS | SafeSpace{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/sos.css' %}?v=8">{% endblock %}
+{% block page_scripts %}<script src="{% static 'SafeSpace/js/sos.js' %}" defer></script>{% endblock %}
+{% block page_class %}sos-page{% endblock %}
+{% block app_content %}
+<header class="screen-heading">
+    <p class="eyebrow">ACESSO RÁPIDO EM UMA EMERGÊNCIA</p>
+    <h1>Meu SOS</h1>
+    <p>Escolha quais informações do seu perfil poderão aparecer no cartão de emergência.</p>
+</header>
+
+<aside class="sos-profile-card" aria-labelledby="sos-profile-card-title">
+    <span class="sos-profile-card-icon" aria-hidden="true">✎</span>
+    <div class="sos-profile-card-copy">
+        <h2 id="sos-profile-card-title">Complete suas informações</h2>
+        <p>
+            Cadastre no perfil seus dados de saúde, endereço, contatos e orientações
+            de emergência. Depois, escolha aqui o que deseja compartilhar.
+        </p>
+    </div>
+    <a class="action-button action-button--secondary" href="{% url 'profile' %}">
+        Configurar meu perfil
+    </a>
+</aside>
+
+<div class="sos-layout">
+    <section class="sos-panel" aria-labelledby="sos-select-title">
+        <h2 id="sos-select-title">Informações para exibir</h2>
+        <p class="sos-panel-intro">Seu nome sempre aparece. Os demais itens são opcionais e ficam ativados por padrão.</p>
+        <form method="post">
+            {% csrf_token %}
+            <fieldset class="sos-options">
+                <legend>Selecione o que deseja compartilhar em uma emergência</legend>
+                {% for option in sharing_options %}
+                <div class="sos-option">
+                    <label class="sos-option-label" for="{{ option.field.id_for_label }}">
+                        {{ option.field }}
+                        <span class="sos-option-title">
+                            {{ option.field.label }}
+                            {% if option.available_on_card %}
+                            <span class="sos-card-availability">(disponível no cartão)</span>
+                            {% endif %}
+                        </span>
+                    </label>
+                    <p class="sos-option-preview">{{ option.preview|truncatechars:100 }}</p>
+                </div>
+                {% endfor %}
+                {{ preferences_form.non_field_errors }}
+            </fieldset>
+            <p class="sos-privacy-notice">
+                Qualquer pessoa que tiver o QR Code ou o link poderá abrir o cartão e ver os
+                campos escolhidos. Salvar ou gerar novamente as preferências invalida o QR anterior.
+            </p>
+            <div class="sos-actions">
+                <button class="action-button" type="submit" name="save_sos">
+                    {% if card_url %}Salvar e gerar novo QR Code{% else %}Salvar e gerar QR Code{% endif %}
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <section class="emergency-card" aria-labelledby="emergency-card-title">
+        <div class="emergency-card-heading">
+            <p class="eyebrow">PRONTO PARA EMERGÊNCIAS</p>
+            <h2 id="emergency-card-title">Prévia do cartão</h2>
+            <p>Frente e verso no formato ID-1, usado em cartões e crachás.</p>
+        </div>
+        {% include "components/sos_card_faces.html" %}
+        <div class="sos-card-actions">
+            {% if card_url %}
+            <a class="action-button" href="{{ card_url }}" target="_blank" rel="noopener noreferrer">
+                Abrir cartão completo
+            </a>
+            <a class="action-button action-button--secondary" href="{{ download_url }}">
+                Baixar frente e verso
+            </a>
+            {% else %}
+            <p class="sos-card-caption">Salve as preferências para gerar o QR Code do cartão.</p>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}

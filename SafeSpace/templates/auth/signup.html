@@ -1,0 +1,61 @@
+{% extends "auth/base_auth.html" %}
+
+{% block title %}Criar conta | SafeSpace{% endblock %}
+{% block heading %}Seu espaço começa aqui{% endblock %}
+{% block subtitle %}Crie sua conta para guardar o que é importante para você.{% endblock %}
+
+{% block content %}
+<form class="auth-form" method="post" action="{% url 'SafeSpace:signup' %}">
+    {% csrf_token %}
+    <div class="form-field">
+        <label class="field-label" for="name">Como podemos te chamar?</label>
+        <input id="name" name="name" type="text" autocomplete="name" placeholder="Seu nome" maxlength="150"
+               value="{{ form.name.value|default:'' }}" required>
+        {% for error in form.name.errors %}<p class="field-hint" role="alert">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="form-field">
+        <label class="field-label" for="email">E-mail</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com"
+               value="{{ form.email.value|default:'' }}" maxlength="254" required>
+        {% for error in form.email.errors %}<p class="field-hint" role="alert">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="form-field">
+        <label class="field-label" for="password">Crie uma senha</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" minlength="8"
+            maxlength="128"
+            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9\s]).{8,}"
+            aria-describedby="password-requirements password-strength-label" data-password-input required>
+        {% for error in form.password.errors %}<p class="field-hint" role="alert">{{ error }}</p>{% endfor %}
+        <div class="password-strength" data-password-strength>
+            <div class="password-strength-track" role="progressbar" aria-label="Nível de segurança da senha"
+                aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-strength-meter>
+                <span class="password-strength-fill" data-strength-fill></span>
+            </div>
+            <p class="password-strength-label" id="password-strength-label" data-strength-label aria-live="polite">Nível
+                da senha: ainda não informada</p>
+        </div>
+        <ul class="password-requirements" id="password-requirements">
+            <li data-password-rule="length">Pelo menos 8 caracteres</li>
+            <li data-password-rule="uppercase">Pelo menos 1 letra maiúscula</li>
+            <li data-password-rule="lowercase">Pelo menos 1 letra minúscula</li>
+            <li data-password-rule="special">Pelo menos 1 caractere especial</li>
+        </ul>
+    </div>
+    <div class="form-field">
+        <label class="field-label" for="password-confirmation">Confirme sua senha</label>
+        <input id="password-confirmation" name="password_confirmation" type="password"
+               autocomplete="new-password" aria-describedby="password-confirmation-hint"
+               data-password-confirmation required>
+        {% for error in form.password_confirmation.errors %}<p class="field-hint" role="alert">{{ error }}</p>{% endfor %}
+        <p class="field-hint" id="password-confirmation-hint"
+           data-password-confirmation-hint aria-live="polite"></p>
+    </div>
+    <button class="sticker primary-button" type="submit">Criar minha conta</button>
+</form>
+{% for error in form.non_field_errors %}<p class="field-hint" role="alert">{{ error }}</p>{% endfor %}
+
+<p class="auth-prompt">
+    Já tem uma conta?
+    <a class="text-link" href="{% url 'SafeSpace:index' %}">Entrar</a>
+</p>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base_app.html" %}
+{% load static %}
+{% block title %}Saúde | SafeSpace{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/health.css' %}">{% endblock %}
+{% block page_class %}health-page{% endblock %}
+{% block app_content %}
+<header class="screen-heading">
+    <p class="eyebrow">CUIDADO COM VOCÊ</p>
+    <h1>Saúde</h1>
+    <p>Um espaço para organizar suas informações de saúde com cuidado e privacidade.</p>
+</header>
+<section class="health-empty" aria-label="Área de saúde em preparação">
+    <span aria-hidden="true">♡</span>
+    <p>Este espaço está sendo preparado para você.</p>
+    <p>Mais adiante, poderá reunir exames e seu histórico, além de médicos e contatos de cuidado.</p>
+</section>
+{% endblock %}

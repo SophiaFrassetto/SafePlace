@@ -1,0 +1,147 @@
+{% extends "base_app.html" %}
+{% load static %}
+{% block title %}Diário | SafeSpace{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/diary.css' %}?v=5">{% endblock %}
+{% block page_scripts %}<script src="{% static 'SafeSpace/js/diary.js' %}?v=3" defer></script>{% endblock %}
+{% block page_class %}diary-page{% endblock %}
+{% block app_content %}
+<header class="screen-heading">
+    <p class="eyebrow">UM ESPAÇO SÓ SEU</p>
+    <h1>Meu diário</h1>
+    <p>Escreva no seu tempo, uma página de cada vez. Salve para continuar para a próxima.</p>
+</header>
+
+<section class="diary-book" aria-label="Caderno do diário">
+    <div class="diary-binding" aria-hidden="true"></div>
+    <div class="diary-page-stack">
+        <div class="diary-under-sheet" aria-hidden="true"></div>
+        <div class="diary-page-sheet" data-diary-sheet>
+            <div class="diary-page-top">
+                <span class="diary-date-label">Data</span>
+                <span class="diary-page-number" data-page-number>{{ page_number }}</span>
+            </div>
+            <form method="post" class="diary-entry-form"
+                      data-diary-entry-form>
+                {% csrf_token %}
+                <input type="hidden" name="entry_id" value="{{ active_entry.pk|default_if_none:'' }}">
+                <label class="diary-label" for="{{ entry_form.entry_date.id_for_label }}">Data da página</label>
+                {{ entry_form.entry_date }}
+                {{ entry_form.entry_date.errors }}
+                <label class="diary-label" for="{{ entry_form.mood.id_for_label }}">Humor do dia</label>
+                {{ entry_form.mood }}
+                {{ entry_form.mood.errors }}
+                <label class="diary-label" for="{{ entry_form.content.id_for_label }}">O que gostaria de registrar?</label>
+                {{ entry_form.content }}
+                {{ entry_form.content.errors }}
+
+                <section class="todo-panel" aria-labelledby="todo-title">
+                    <div class="todo-heading">
+                        <h2 id="todo-title">Afazeres desta página</h2>
+                        <span>pequenos passos também contam</span>
+                    </div>
+                    <div class="todo-form">
+                        <label class="visually-hidden" for="{{ task_form.text.id_for_label }}">Novo afazer</label>
+                        {{ task_form.text }}
+                        <button class="action-button action-button--secondary" type="submit"
+                                name="action" value="add_task">Adicionar</button>
+                    </div>
+                    {{ task_form.text.errors }}
+                    <ul class="todo-list" id="diary-tasks" aria-live="polite">
+                        {% for task in page_tasks %}
+                        <li class="todo-item{% if task.is_completed %} todo-item--completed{% endif %}">
+                            <button class="todo-item-toggle" type="submit"
+                                    name="toggle_task_id" value="{{ task.pk }}" formnovalidate
+                                    aria-pressed="{{ task.is_completed|yesno:'true,false' }}"
+                                    aria-label="{% if task.is_completed %}Desconcluir{% else %}Concluir{% endif %} tarefa: {{ task.text }}">
+                                <span class="todo-item-status" aria-hidden="true">{% if task.is_completed %}✓{% else %}○{% endif %}</span>
+                            </button>
+                            <span class="todo-item-text">{{ task.text }}</span>
+                            {% if task.is_completed %}<span class="todo-item-completed-label">Concluído</span>{% endif %}
+                        </li>
+                        {% empty %}
+                        <li class="todo-empty">Os afazeres que você adicionar ficam guardados nesta página.</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+                <div class="diary-save-row">
+                    <button class="action-button" type="submit" name="action"
+                            value="save_entry" formnovalidate>
+                        Salvar página
+                    </button>
+                    {% if active_entry and can_advance_page %}
+                    <span data-diary-save-status>Salvo. Você já pode avançar para a próxima página.</span>
+                    {% else %}
+                    <span data-diary-save-status>Salve algum conteúdo desta página antes de avançar.</span>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+    <nav class="diary-corner-controls" aria-label="Navegação das páginas do diário">
+        {% if has_previous_page %}
+        <form method="post" data-page-transition-form>
+            {% csrf_token %}
+            <input type="hidden" name="entry_id" value="{{ active_entry.pk }}">
+            <button class="diary-page-arrow diary-page-arrow--previous" type="submit"
+                    name="action" value="previous_page" data-page-previous aria-label="Página anterior">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+        </form>
+        {% else %}
+        <button class="diary-page-arrow diary-page-arrow--previous" type="button"
+                data-page-previous aria-label="Página anterior" disabled>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        {% endif %}
+        <span class="visually-hidden" data-page-status aria-live="polite">Página {{ page_number }}</span>
+        <form method="post" data-page-transition-form>
+            {% csrf_token %}
+            {% if active_entry %}<input type="hidden" name="entry_id" value="{{ active_entry.pk }}">{% endif %}
+            <button class="diary-page-arrow diary-page-arrow--next" type="submit"
+                    name="action" value="next_page" data-page-next
+                    {% if not can_advance_page %}disabled title="Salve conteúdo da página antes de avançar"{% endif %}
+                    aria-label="Próxima página">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+        </form>
+    </nav>
+    {% if active_entry %}
+    <div class="diary-delete-control">
+        <button class="diary-delete-button" type="button"
+                data-delete-dialog-open aria-haspopup="dialog"
+                aria-label="Apagar esta página" title="Apagar esta página">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M6 3.5h8l4 4v6M14 3.5v4h4M6 3.5v17h5"/>
+                <path d="m5 20.5 2-1.5 2 1.5 2-1.5 2 1.5 2-1.5 2 1.5 2-1.5"/>
+                <path d="m15.5 16.5 5 5m0-5-5 5"/>
+            </svg>
+        </button>
+    </div>
+    <dialog class="diary-delete-dialog" aria-labelledby="diary-delete-title"
+            aria-describedby="diary-delete-description" data-delete-dialog>
+        <div class="diary-delete-dialog-content">
+            <span class="diary-delete-decoration" aria-hidden="true">✂</span>
+            <h2 id="diary-delete-title">Apagar esta página?</h2>
+            <p id="diary-delete-description">
+                Esta página e os afazeres dela serão apagados permanentemente.
+                Não será possível desfazer esta ação.
+            </p>
+            <div class="diary-delete-dialog-actions">
+                <button class="action-button action-button--secondary"
+                        type="button" data-delete-dialog-close>
+                    Manter página
+                </button>
+                <form method="post" action="{% url 'diary' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="entry_id" value="{{ active_entry.pk }}">
+                    <button class="action-button diary-delete-confirm"
+                            type="submit" name="action" value="delete_entry">
+                        Apagar página
+                    </button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+    {% endif %}
+</section>
+{% endblock %}

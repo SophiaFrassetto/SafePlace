@@ -1,0 +1,23 @@
+.health-empty {
+    display: grid;
+    min-height: 15rem;
+    place-content: center;
+    justify-items: center;
+    gap: 0.75rem;
+    padding: 2rem;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-paper-translucent);
+    color: var(--color-ink-muted);
+    text-align: center;
+}
+
+.health-empty span {
+    color: var(--color-link);
+    font-size: 2rem;
+}
+
+.health-empty p {
+    margin: 0;
+    line-height: 1.5;
+}

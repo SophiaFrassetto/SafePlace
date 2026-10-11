@@ -1,0 +1,608 @@
+.diary-book {
+    position: relative;
+    width: min(100%, 52rem);
+    margin: 0 auto;
+    padding: 0 0 0 1.25rem;
+    filter: drop-shadow(var(--shadow-diary));
+}
+
+.diary-binding {
+    position: absolute;
+    z-index: 1;
+    inset: 1.5rem auto 1.5rem 0;
+    width: 2rem;
+    border: 2px solid var(--color-border);
+    border-right: 0;
+    border-radius: 1rem 0 0 1rem;
+    background: var(--color-trans-blue);
+}
+
+.diary-page-stack {
+    display: grid;
+    position: relative;
+    perspective: 100rem;
+    perspective-origin: 50% 50%;
+}
+
+.diary-under-sheet,
+.diary-page-sheet {
+    grid-area: 1 / 1;
+    position: relative;
+    min-height: 35rem;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    border: 2px solid var(--color-trans-white);
+    border-radius: 0.5rem 1.5rem 1.5rem 0.5rem;
+    background:
+        repeating-linear-gradient(transparent 0 2.2rem, var(--color-line) 2.25rem),
+        var(--color-paper);
+    box-shadow: var(--shadow-diary-inset);
+}
+
+.diary-under-sheet {
+    position: absolute;
+    inset: 0;
+    transform: translateX(0.2rem) rotate(0.35deg);
+    box-shadow: var(--shadow-diary-inset);
+}
+
+.diary-page-sheet {
+    z-index: 1;
+    overflow: hidden;
+    transform-origin: right center;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    padding-bottom: 4.5rem;
+}
+
+.diary-page-sheet::after {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    background:
+        linear-gradient(
+            90deg,
+            transparent 35%,
+            rgb(49 83 107 / 14%) 49%,
+            rgb(255 255 255 / 78%) 50%,
+            rgb(49 83 107 / 16%) 52%,
+            transparent 67%
+        );
+    background-size: 200% 100%;
+    content: "";
+    opacity: 0;
+    pointer-events: none;
+}
+
+.diary-page-sheet.is-turning-next {
+    animation: diary-page-roll-next 1300ms cubic-bezier(0.22, 0.68, 0, 1) both;
+}
+
+.diary-page-sheet.is-turning-previous {
+    animation: diary-page-roll-previous 1300ms cubic-bezier(0.22, 0.68, 0, 1) both;
+}
+
+.diary-page-sheet.is-turning-next::after,
+.diary-page-sheet.is-turning-previous::after {
+    animation: diary-page-curl-shadow 1100ms ease-in-out both;
+}
+
+@keyframes diary-page-roll-next {
+    0% {
+        clip-path: polygon(0 0, 100% 0, 100% 18%, 100% 36%, 100% 54%, 100% 72%, 100% 88%, 100% 100%, 0 100%);
+        transform: rotateY(0) skewY(0);
+        filter: drop-shadow(0 0 0 transparent);
+    }
+
+    22% {
+        clip-path: polygon(0 0, 97% 0, 100% 15%, 94% 31%, 99% 48%, 92% 66%, 98% 84%, 95% 100%, 0 100%);
+        transform: rotateY(-5deg) skewY(0.6deg) scaleX(0.99);
+        filter: drop-shadow(-0.35rem 0 0.35rem var(--color-diary-turn-soft));
+    }
+
+    52% {
+        clip-path: polygon(0 0, 54% 0, 47% 16%, 57% 33%, 45% 50%, 56% 67%, 46% 84%, 53% 100%, 0 100%);
+        transform: rotateY(-17deg) skewY(-1.4deg) scaleX(0.94);
+        filter: drop-shadow(-0.8rem 0 0.65rem var(--color-diary-turn-strong));
+    }
+
+    82% {
+        clip-path: polygon(0 0, 9% 0, 15% 17%, 5% 34%, 12% 51%, 3% 68%, 10% 85%, 6% 100%, 0 100%);
+        transform: rotateY(-7deg) skewY(0.7deg) scaleX(0.98);
+        filter: drop-shadow(-0.45rem 0 0.4rem var(--color-diary-turn-medium));
+    }
+
+    100% {
+        clip-path: polygon(0 0, 0 0, 0 18%, 0 36%, 0 54%, 0 72%, 0 88%, 0 100%, 0 100%);
+        transform: rotateY(0) skewY(0);
+        filter: drop-shadow(0 0 0 transparent);
+    }
+}
+
+@keyframes diary-page-roll-previous {
+    0% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 88%, 0 72%, 0 54%, 0 36%, 0 18%);
+        transform: rotateY(0) skewY(0);
+        filter: drop-shadow(0 0 0 transparent);
+    }
+
+    22% {
+        clip-path: polygon(3% 0, 100% 0, 100% 100%, 5% 100%, 2% 84%, 8% 66%, 1% 48%, 7% 31%, 3% 15%);
+        transform: rotateY(5deg) skewY(-0.6deg) scaleX(0.99);
+        filter: drop-shadow(0.35rem 0 0.35rem var(--color-diary-turn-soft));
+    }
+
+    52% {
+        clip-path: polygon(46% 0, 100% 0, 100% 100%, 47% 100%, 54% 84%, 44% 67%, 55% 50%, 43% 33%, 53% 16%);
+        transform: rotateY(17deg) skewY(1.4deg) scaleX(0.94);
+        filter: drop-shadow(0.8rem 0 0.65rem var(--color-diary-turn-strong));
+    }
+
+    82% {
+        clip-path: polygon(91% 0, 100% 0, 100% 100%, 94% 100%, 90% 85%, 97% 68%, 88% 51%, 95% 34%, 85% 17%);
+        transform: rotateY(7deg) skewY(-0.7deg) scaleX(0.98);
+        filter: drop-shadow(0.45rem 0 0.4rem var(--color-diary-turn-medium));
+    }
+
+    100% {
+        clip-path: polygon(100% 0, 100% 0, 100% 18%, 100% 36%, 100% 54%, 100% 72%, 100% 88%, 100% 100%, 100% 100%);
+        transform: rotateY(0) skewY(0);
+        filter: drop-shadow(0 0 0 transparent);
+    }
+}
+
+@keyframes diary-page-curl-shadow {
+    0% {
+        background-position: 100% 0;
+        opacity: 0;
+    }
+
+    50% {
+        background-position: 50% 0;
+        opacity: 0.9;
+    }
+
+    100% {
+        background-position: 0 0;
+        opacity: 0;
+    }
+}
+
+.diary-page-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.diary-date-label,
+.diary-label {
+    display: block;
+    color: var(--color-ink);
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.diary-page-top input,
+.diary-page-sheet select,
+.todo-form input,
+.diary-date-input {
+    min-height: 2.75rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font: inherit;
+}
+
+.diary-page-top input {
+    width: min(13rem, 55%);
+}
+
+.diary-date-input {
+    width: min(13rem, 100%);
+}
+
+.diary-page-number {
+    margin-left: auto;
+    color: var(--color-ink-muted);
+    font-size: 0.8rem;
+}
+
+.diary-label {
+    margin: 0.9rem 0 0.5rem;
+}
+
+.diary-page-sheet select {
+    width: 100%;
+}
+
+.diary-entry-form > select,
+.diary-entry-form > input[type="date"] {
+    width: 100%;
+}
+
+.diary-entry {
+    width: 100%;
+    min-height: 11rem;
+    resize: vertical;
+    padding: 0.65rem 0.25rem;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--color-ink);
+    font: inherit;
+    line-height: 2.25rem;
+}
+
+.diary-entry:focus-visible {
+    outline: 2px solid var(--color-trans-blue-strong);
+    outline-offset: 0;
+}
+
+.todo-panel {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px dashed var(--color-trans-pink);
+    border-radius: 1rem;
+    background: var(--color-paper-translucent);
+}
+
+.todo-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.todo-heading h2 {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.todo-heading span {
+    color: var(--color-ink-muted);
+    font-size: 0.75rem;
+}
+
+.todo-form {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.85rem;
+}
+
+.todo-form input {
+    min-width: 0;
+    flex: 1;
+}
+
+.todo-form {
+    align-items: center;
+}
+
+.todo-task-input {
+    width: 100%;
+}
+
+.todo-list {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0.65rem;
+    border-radius: 0.65rem;
+    background: var(--color-paper);
+}
+
+.todo-item-text {
+    min-width: 0;
+    flex: 1;
+    overflow-wrap: anywhere;
+    font-size: 0.875rem;
+}
+
+.todo-item--completed .todo-item-text {
+    color: var(--color-ink-muted);
+    text-decoration: line-through;
+}
+
+.todo-item-status {
+    color: var(--color-link);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.todo-item-toggle {
+    display: grid;
+    width: 1.75rem;
+    height: 1.75rem;
+    flex: 0 0 auto;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-paper);
+    cursor: pointer;
+}
+
+.todo-item-toggle:hover {
+    background: var(--color-mint);
+}
+
+.todo-item-toggle:focus-visible {
+    outline-offset: 2px;
+}
+
+.todo-item--completed .todo-item-toggle {
+    border-color: var(--color-mint);
+    background: var(--color-blue-surface);
+}
+
+.todo-item-completed-label,
+.todo-empty {
+    color: var(--color-ink-muted);
+    font-size: 0.72rem;
+}
+
+.diary-save-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.diary-save-row > span {
+    color: var(--color-ink-muted);
+    font-size: 0.78rem;
+}
+
+.diary-entry-form .errorlist {
+    margin: 0.3rem 0;
+    color: #9f3d55;
+    font-size: 0.82rem;
+}
+
+.diary-corner-controls {
+    position: absolute;
+    z-index: 4;
+    inset: 50% 0.75rem auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.diary-page-arrow {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 2px solid var(--color-trans-blue-strong);
+    border-radius: 50%;
+    background: var(--color-paper);
+    box-shadow: var(--shadow-sticker);
+    color: var(--color-ink);
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.diary-page-arrow:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: var(--color-focus-ring);
+}
+
+.diary-page-arrow:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.diary-page-arrow svg {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+}
+
+.diary-corner-controls form {
+    margin: 0;
+}
+
+.diary-delete-control {
+    position: absolute;
+    z-index: 5;
+    right: 1.2rem;
+    bottom: 0.75rem;
+}
+
+.diary-delete-button {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    padding: 0.55rem;
+    border: 1px dashed var(--color-trans-pink);
+    border-radius: 0.8rem 0.8rem 0.55rem 0.55rem;
+    background: var(--color-paper);
+    box-shadow: var(--shadow-sticker);
+    color: var(--color-link);
+    cursor: pointer;
+    transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.diary-delete-button:hover {
+    transform: translateY(-2px) rotate(2deg);
+    background: var(--color-pink-surface);
+}
+
+.diary-delete-button:focus-visible {
+    outline-offset: 3px;
+}
+
+.diary-delete-button svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+}
+
+.diary-delete-dialog {
+    width: min(28rem, calc(100% - 2rem));
+    padding: 0;
+    overflow: visible;
+    border: 2px solid var(--color-trans-white);
+    border-radius: 1.25rem;
+    background:
+        repeating-linear-gradient(
+            transparent 0 2rem,
+            var(--color-line) 2.05rem
+        ),
+        var(--color-paper);
+    box-shadow: var(--shadow-menu);
+    color: var(--color-ink);
+}
+
+.diary-delete-dialog::backdrop {
+    background: rgb(28 43 56 / 48%);
+    backdrop-filter: blur(2px);
+}
+
+.diary-delete-dialog-content {
+    position: relative;
+    padding: 2rem;
+}
+
+.diary-delete-decoration {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    transform: rotate(-12deg);
+    color: var(--color-trans-pink);
+    font-size: 2rem;
+}
+
+.diary-delete-dialog h2 {
+    margin: 0 2rem 0.65rem 0;
+    font-size: 1.35rem;
+}
+
+.diary-delete-dialog p {
+    margin: 0;
+    color: var(--color-ink-muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.diary-delete-dialog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.65rem;
+    margin-top: 1.5rem;
+}
+
+.diary-delete-dialog-actions form {
+    margin: 0;
+}
+
+.diary-delete-confirm {
+    border-color: var(--color-warning);
+    background: var(--color-pink-surface);
+}
+
+@media (max-width: 520px) {
+    .diary-book {
+        padding-left: 0.6rem;
+    }
+
+    .diary-binding {
+        width: 1.2rem;
+        border-radius: 0.6rem 0 0 0.6rem;
+    }
+
+    .diary-page-sheet {
+        min-height: 32rem;
+        padding: 1.1rem;
+        padding-bottom: 4.5rem;
+    }
+
+    .todo-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .todo-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .diary-save-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .diary-corner-controls {
+        right: 0.55rem;
+        left: 0.95rem;
+    }
+
+    .diary-page-arrow {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .diary-delete-control {
+        right: 0.75rem;
+        bottom: 0.65rem;
+    }
+
+    .diary-delete-button {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .diary-delete-dialog-content {
+        padding: 1.5rem;
+    }
+
+    .diary-delete-dialog-actions {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .diary-delete-dialog-actions form,
+    .diary-delete-dialog-actions button {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .diary-page-sheet::after {
+        animation: none !important;
+    }
+
+    .diary-page-sheet.is-turning-next,
+    .diary-page-sheet.is-turning-previous {
+        clip-path: none;
+    }
+}

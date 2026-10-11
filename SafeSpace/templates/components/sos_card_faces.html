@@ -1,0 +1,77 @@
+{% load static %}
+<div class="sos-card-spread" aria-label="Prévia da frente e do verso do cartão vertical">
+    <article class="id-card id-card--front" data-print-card>
+        <header class="id-card-brand">
+            <img src="{% static 'SafeSpace/img/icon_safe_place.png' %}" width="36" height="36" alt="">
+            <span>SafeSpace · emergência</span>
+            <span class="id-card-side-label">FRENTE</span>
+        </header>
+        <section class="id-card-name">
+            <span class="id-card-field-label">NOME</span>
+            <h2>{{ card.display_name }}</h2>
+        </section>
+        <div class="id-card-portrait-row">
+            <div class="id-card-photo">
+                {% if card.profile_picture_data_uri %}
+                <img src="{{ card.profile_picture_data_uri }}" alt="Foto de {{ card.display_name }}">
+                {% else %}
+                <span>{% if card.profile_picture_shared %}Sem foto cadastrada{% else %}Não compartilhada{% endif %}</span>
+                {% endif %}
+            </div>
+            <div class="id-card-blood">
+                <span class="id-card-field-label">TIPO SANGUÍNEO</span>
+                <strong>{{ card.blood_type }}</strong>
+            </div>
+        </div>
+        <section class="id-card-field id-card-field--contacts">
+            <span class="id-card-field-label">CONTATOS DE EMERGÊNCIA</span>
+            <span class="id-card-field-value">{% for contact in card.emergency_contacts %}{% if not forloop.first %}, {% endif %}{{ contact }}{% endfor %}</span>
+        </section>
+        <div class="id-card-front-bottom">
+            <section class="id-card-field id-card-field--address">
+                <span class="id-card-field-label">ENDEREÇO</span>
+                <span class="id-card-field-value">{{ card.address }}</span>
+            </section>
+            <div class="id-card-qr-area">
+                {% if qr_url %}
+                <a class="id-card-qr-link" href="{{ card_url }}" aria-label="Abrir informações de emergência">
+                    <img class="id-card-qr" src="{{ qr_url }}" width="96" height="96" alt="QR Code para abrir as informações de emergência">
+                </a>
+                <span>ABRA AS INFORMAÇÕES</span>
+                {% else %}
+                <div class="id-card-qr-placeholder">QR Code</div>
+                {% endif %}
+            </div>
+        </div>
+        <span class="id-card-decoration" aria-hidden="true">✿</span>
+    </article>
+
+    <article class="id-card id-card--back" data-print-card>
+        <header class="id-card-brand">
+            <img src="{% static 'SafeSpace/img/icon_safe_place.png' %}" width="36" height="36" alt="">
+            <span>SafeSpace · informações de saúde</span>
+            <span class="id-card-side-label">VERSO</span>
+        </header>
+        <section class="id-card-field id-card-field--medications">
+            <span class="id-card-field-label">MEDICAMENTOS</span>
+            <ul class="id-card-medications">
+                {% for medication in card.medications %}
+                <li>{{ medication }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="id-card-field id-card-field--allergies">
+            <span class="id-card-field-label">ALERGIAS</span>
+            <span class="id-card-field-value">{{ card.allergies }}</span>
+        </section>
+        <section class="id-card-field id-card-field--conditions">
+            <span class="id-card-field-label">CONDIÇÕES IMPORTANTES</span>
+            <span class="id-card-field-value">{{ card.conditions }}</span>
+        </section>
+        <section class="id-card-field id-card-field--crisis">
+            <span class="id-card-field-label">ORIENTAÇÕES EM CASO DE CRISE</span>
+            <span class="id-card-field-value">{{ card.crisis_instructions }}</span>
+        </section>
+        <span class="id-card-decoration" aria-hidden="true">✦</span>
+    </article>
+</div>

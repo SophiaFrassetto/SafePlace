@@ -1,0 +1,582 @@
+:root {
+    color-scheme: light;
+    --color-paper: #fffdfd;
+    --color-paper-warm: #fff8fa;
+    --color-ink: #31536b;
+    --color-ink-muted: #547184;
+    --color-ink-soft: #7794a6;
+    --color-link: #397fa1;
+    --color-link-hover: #286b8c;
+    --color-trans-blue: #9bdcf5;
+    --color-trans-blue-strong: #5bcefa;
+    --color-trans-pink: #f5a9b8;
+    --color-trans-white: #fffdfd;
+    --color-lavender: #c9b6e4;
+    --color-mint: #b7e4d1;
+    --color-warning: #f2ce78;
+    --color-line: #d9f0f8;
+    --color-border: #b9e9fa;
+    --color-focus-ring: #d8f3fc;
+    --color-overlay: rgb(49 83 107 / 22%);
+    --color-topbar-surface: rgb(255 253 253 / 94%);
+    --color-blue-surface: #e8f7fd;
+    --color-pink-surface: #fff0f3;
+    --color-lavender-surface: #f3eef9;
+    --color-white-translucent: rgb(255 255 255 / 75%);
+    --color-paper-translucent: rgb(255 253 253 / 75%);
+    --shadow-sticker: 0 3px 8px rgb(49 83 107 / 15%);
+    --shadow-paper: 0 10px 0 var(--color-trans-pink), 0 24px 50px rgb(91 206 250 / 15%);
+    --shadow-menu: 0 1rem 2.5rem rgb(49 83 107 / 18%);
+    --shadow-diary: 0 0.75rem 0.75rem rgb(49 83 107 / 10%);
+    --shadow-diary-inset: inset 0.6rem 0 1rem rgb(49 83 107 / 7%);
+    --color-diary-turn-soft: rgb(49 83 107 / 14%);
+    --color-diary-turn-medium: rgb(49 83 107 / 16%);
+    --color-diary-turn-strong: rgb(49 83 107 / 21%);
+    --font-body: Arial, sans-serif;
+    --radius-card: 2rem;
+    --radius-control: 0.75rem;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-body);
+}
+
+button,
+input {
+    font: inherit;
+}
+
+a {
+    color: var(--color-link);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-link-hover);
+}
+
+:focus-visible {
+    outline: 3px solid var(--color-trans-blue-strong);
+    outline-offset: 3px;
+}
+
+.icon-button {
+    position: relative;
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: 0.9rem;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    cursor: pointer;
+}
+
+.icon-button:hover {
+    background: var(--color-focus-ring);
+}
+
+.icon-button svg {
+    width: 1.35rem;
+    height: 1.35rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+.profile-avatar {
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    place-items: center;
+    overflow: hidden;
+    border: 2px solid var(--color-trans-white);
+    border-radius: 50%;
+    background: var(--color-trans-pink);
+    box-shadow: var(--shadow-sticker);
+    color: var(--color-ink);
+    object-fit: cover;
+}
+
+.profile-initials {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.toast-region {
+    position: fixed;
+    z-index: 20;
+    top: max(1rem, env(safe-area-inset-top));
+    right: max(1rem, env(safe-area-inset-right));
+    display: grid;
+    width: min(24rem, calc(100vw - 2rem));
+    gap: 0.75rem;
+}
+
+.toast {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    border: 2px solid var(--color-trans-white);
+    border-radius: var(--radius-control);
+    background: var(--color-paper);
+    box-shadow: var(--shadow-sticker);
+}
+
+.toast--success {
+    border-left: 0.35rem solid var(--color-mint);
+}
+
+.toast--warning {
+    border-left: 0.35rem solid var(--color-warning);
+}
+
+.toast--error {
+    border-left: 0.35rem solid var(--color-trans-pink);
+}
+
+.toast--info,
+.toast--debug {
+    border-left: 0.35rem solid var(--color-trans-blue-strong);
+}
+
+.toast-message {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.toast-dismiss {
+    flex: 0 0 auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-ink-muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.toast-dismiss:hover {
+    color: var(--color-ink);
+}
+
+.errorlist {
+    margin: 0.25rem 0 0;
+    padding-left: 1.2rem;
+    color: var(--color-link-hover);
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+@media (max-width: 640px) {
+    .toast-region {
+        top: max(0.75rem, env(safe-area-inset-top));
+        right: max(0.75rem, env(safe-area-inset-right));
+        width: min(24rem, calc(100vw - 1.5rem));
+    }
+}
+
+.app-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(var(--color-trans-pink) 1px, transparent 1px),
+        var(--color-paper-warm);
+    background-size: 24px 24px;
+}
+
+.app-topbar {
+    position: sticky;
+    z-index: 5;
+    top: 0;
+    display: flex;
+    min-height: 4.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem clamp(1rem, 4vw, 3.5rem);
+    border-bottom: 1px solid var(--color-line);
+    background: var(--color-topbar-surface);
+    backdrop-filter: blur(12px);
+}
+
+.app-topbar-start,
+.app-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+}
+
+.app-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--color-ink);
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.app-brand:hover {
+    color: var(--color-ink);
+}
+
+.app-brand-mark {
+    display: grid;
+    width: 2.35rem;
+    height: 2.35rem;
+    place-items: center;
+    border: 2px solid var(--color-trans-white);
+    border-radius: 0.8rem;
+    background: var(--color-trans-blue-strong);
+    box-shadow: var(--shadow-sticker);
+}
+
+.app-brand-icon {
+    width: 3.25rem;
+    height: 3.25rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    object-fit: contain;
+}
+
+.app-menu-backdrop {
+    position: fixed;
+    z-index: 7;
+    inset: 0;
+    border: 0;
+    background: var(--color-overlay);
+    cursor: default;
+}
+
+.app-menu-backdrop[hidden],
+.app-main-menu[hidden],
+.app-notification-panel[hidden] {
+    display: none;
+}
+
+.app-main-menu {
+    position: fixed;
+    z-index: 8;
+    inset: 0 auto 0 0;
+    display: grid;
+    width: min(20rem, calc(100vw - 4rem));
+    max-height: 100svh;
+    align-content: start;
+    gap: 0.4rem;
+    overflow-y: auto;
+    padding: 5.75rem 1.25rem 1.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0 1.5rem 1.5rem 0;
+    background: var(--color-paper);
+    box-shadow: var(--shadow-paper);
+}
+
+.app-menu-link {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: 0.75rem;
+    color: var(--color-ink);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.app-menu-link:hover,
+.app-menu-link.is-active {
+    background: var(--color-focus-ring);
+    color: var(--color-link-hover);
+}
+
+.app-menu-link span {
+    width: 1.4rem;
+    color: var(--color-link);
+    font-size: 1.15rem;
+    text-align: center;
+}
+
+.app-notification-wrap,
+.app-profile-menu {
+    position: relative;
+}
+
+.app-profile-menu > summary {
+    list-style: none;
+}
+
+.app-profile-menu > summary::-webkit-details-marker {
+    display: none;
+}
+
+.app-profile-trigger {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--color-ink);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.app-profile-trigger:hover {
+    color: var(--color-link-hover);
+}
+
+.app-popover {
+    position: absolute;
+    z-index: 9;
+    top: calc(100% + 0.75rem);
+    right: 0;
+    width: min(20rem, calc(100vw - 2rem));
+    padding: 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    background: var(--color-paper);
+    box-shadow: var(--shadow-paper);
+}
+
+.app-notification-panel h2 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.app-notification-panel p {
+    margin: 0.5rem 0 0;
+    color: var(--color-ink-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.app-profile-popover {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.app-profile-popover-name {
+    margin: 0 0 0.35rem;
+    padding: 0 0.75rem 0.65rem;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-ink);
+    font-size: 0.9rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.app-profile-popover form {
+    margin: 0;
+}
+
+.app-popover-link {
+    display: block;
+    width: 100%;
+    padding: 0.7rem 0.75rem;
+    border: 0;
+    border-radius: 0.75rem;
+    background: transparent;
+    color: var(--color-ink);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.app-popover-link:hover {
+    background: var(--color-focus-ring);
+    color: var(--color-link-hover);
+}
+
+.app-content {
+    width: min(100% - 3rem, 72rem);
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4rem) 0 3rem;
+}
+
+@media (max-width: 760px) {
+    .app-topbar {
+        min-height: 4rem;
+        padding-inline: 1rem;
+    }
+
+    .app-main-menu {
+        position: fixed;
+        top: 4.5rem;
+        right: 0.75rem;
+        bottom: auto;
+        left: 0.75rem;
+        width: auto;
+        max-height: calc(100svh - 5.25rem);
+        align-content: normal;
+        padding: 1rem;
+        border-radius: 1rem;
+        box-shadow: var(--shadow-menu);
+    }
+
+    .app-menu-backdrop {
+        z-index: 6;
+        background: transparent;
+    }
+
+    .app-content {
+        width: min(100% - 2rem, 40rem);
+        padding-top: 1.5rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .app-topbar {
+        gap: 0.5rem;
+        padding-inline: 0.75rem;
+    }
+
+    .app-topbar-start,
+    .app-topbar-actions {
+        min-width: 0;
+        gap: 0.5rem;
+    }
+
+    .app-brand {
+        gap: 0.45rem;
+        font-size: 1rem;
+    }
+
+    .app-brand-mark {
+        width: 2.15rem;
+        height: 2.15rem;
+    }
+
+    .icon-button {
+        width: 2.55rem;
+        height: 2.55rem;
+    }
+
+    .profile-avatar {
+        width: 2.3rem;
+        height: 2.3rem;
+    }
+
+    .app-content {
+        width: calc(100% - 1.5rem);
+        padding-top: 1rem;
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+    }
+}
+
+@media (max-width: 360px) {
+    .app-brand > span:not(.app-brand-mark) {
+        display: none;
+    }
+}
+
+.app-brand-mark.app-brand-icon {
+    width: 3.25rem;
+    height: 3.25rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.screen-heading {
+    margin: 0 0 1.5rem;
+}
+
+.screen-heading .eyebrow,
+.eyebrow {
+    margin: 0 0 0.4rem;
+    color: var(--color-link);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.screen-heading h1 {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    letter-spacing: -0.035em;
+}
+
+.screen-heading > p:last-child {
+    margin: 0.55rem 0 0;
+    color: var(--color-ink-muted);
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.prototype-note {
+    margin: 0 0 1.25rem;
+    padding: 0.85rem 1rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-control);
+    background: var(--color-paper-translucent);
+    color: var(--color-ink-muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.action-button {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1rem;
+    border: 2px solid var(--color-trans-white);
+    border-radius: var(--radius-control);
+    background: var(--color-trans-blue-strong);
+    box-shadow: var(--shadow-sticker);
+    color: var(--color-ink);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.action-button:hover:not(:disabled) {
+    background: var(--color-trans-blue);
+}
+
+.action-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.action-button--secondary {
+    border-color: var(--color-border);
+    background: var(--color-paper);
+}
+
+.action-button--secondary:hover:not(:disabled) {
+    background: var(--color-focus-ring);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+}

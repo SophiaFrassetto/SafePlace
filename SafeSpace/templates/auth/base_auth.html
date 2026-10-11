@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}SafeSpace{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'SafeSpace/css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'SafeSpace/css/auth.css' %}">
+    <script src="{% static 'SafeSpace/js/site.js' %}" defer></script>
+    <script src="{% static 'SafeSpace/js/auth.js' %}" defer></script>
+</head>
+
+<body class="auth-page">
+    {% include "components/toasts.html" %}
+    <main class="auth-layout">
+        <section class="paper-card" aria-labelledby="page-title">
+            <span class="sticker welcome-sticker" aria-hidden="true">Um espaço seguro para você</span>
+            <span class="sticker sparkle-sticker" aria-hidden="true">✦</span>
+            <header class="card-header">
+                <div class="sticker brand-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 3 5 6v5c0 4.5 2.9 8.2 7 10 4.1-1.8 7-5.5 7-10V6l-7-3Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4" />
+                    </svg>
+                </div>
+                <h1 id="page-title">{% block heading %}{% endblock %}</h1>
+                <p class="subtitle">{% block subtitle %}{% endblock %}</p>
+            </header>
+            {% block content %}{% endblock %}
+        </section>
+    </main>
+</body>
+
+</html>

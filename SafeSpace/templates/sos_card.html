@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <title>Informações de emergência | SafeSpace</title>
+    <link rel="stylesheet" href="{% static 'SafeSpace/css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'SafeSpace/css/sos.css' %}?v=6">
+</head>
+<body class="sos-card-page">
+    <main class="public-card-page">
+        <header class="public-card-heading">
+            <p class="eyebrow">SAFESPACE · ACESSO DE EMERGÊNCIA</p>
+            <div class="public-card-profile">
+                {% if card.profile_picture_data_uri %}
+                <img src="{{ card.profile_picture_data_uri }}" width="80" height="80" alt="">
+                {% endif %}
+                <div>
+                    <h1>{{ card.display_name }}</h1>
+                    <p>Informações compartilhadas para ajudar em uma emergência.</p>
+                </div>
+            </div>
+        </header>
+        <section class="public-card-details" aria-labelledby="full-details-title">
+            <h2 id="full-details-title">Informações de emergência</h2>
+            <dl>
+                <div><dt>Tipo sanguíneo</dt><dd>{{ card.blood_type }}</dd></div>
+                <div><dt>Peso</dt><dd>{{ card.weight }}</dd></div>
+                <div><dt>Altura</dt><dd>{{ card.height }}</dd></div>
+                <div><dt>Fumante</dt><dd>{{ card.smoker }}</dd></div>
+                <div><dt>Consome bebida alcoólica</dt><dd>{{ card.alcohol }}</dd></div>
+                <div>
+                    <dt>Contatos de emergência</dt>
+                    <dd>{% for contact in card.emergency_contacts %}{% if not forloop.first %}<br>{% endif %}{{ contact }}{% endfor %}</dd>
+                </div>
+                <div><dt>Endereço</dt><dd>{{ card.address }}</dd></div>
+                <div>
+                    <dt>Medicamentos</dt>
+                    <dd>{% for medication in card.medications %}{% if not forloop.first %}, {% endif %}{{ medication }}{% endfor %}</dd>
+                </div>
+                <div><dt>Alergias</dt><dd>{{ card.allergies|linebreaksbr }}</dd></div>
+                <div><dt>Condições importantes</dt><dd>{{ card.conditions|linebreaksbr }}</dd></div>
+                <div><dt>Orientações em caso de crise</dt><dd>{{ card.crisis_instructions|linebreaksbr }}</dd></div>
+            </dl>
+        </section>
+        <p class="public-card-disclaimer">Este cartão digital contém somente as informações selecionadas pela pessoa titular do perfil.</p>
+    </main>
+</body>
+</html>

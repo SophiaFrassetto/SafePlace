@@ -1,0 +1,295 @@
+{% extends "base_app.html" %}
+{% load static %}
+{% block title %}Meu perfil | SafeSpace{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/profile.css' %}">{% endblock %}
+{% block page_scripts %}<script src="{% static 'SafeSpace/js/profile.js' %}?v=2" defer></script>{% endblock %}
+{% block page_class %}profile-page{% endblock %}
+{% block app_content %}
+<header class="screen-heading">
+    <p class="eyebrow">DO SEU JEITO</p>
+    <h1>Meu perfil</h1>
+    <p>Suas informações, organizadas com cuidado.</p>
+</header>
+
+<div class="profile-layout" data-active-profile-tab="{{ active_profile_tab }}">
+    <nav class="profile-tabs" role="tablist" aria-label="Seções do perfil">
+        <button class="profile-tab is-active" type="button" role="tab"
+                id="tab-general" aria-controls="panel-general"
+                aria-selected="true" data-profile-tab="general">Informações gerais</button>
+        <button class="profile-tab" type="button" role="tab"
+                id="tab-password" aria-controls="panel-password"
+                aria-selected="false" tabindex="-1" data-profile-tab="password">Redefinir senha</button>
+        <button class="profile-tab" type="button" role="tab"
+                id="tab-health" aria-controls="panel-health"
+                aria-selected="false" tabindex="-1" data-profile-tab="health">Saúde</button>
+        <button class="profile-tab" type="button" role="tab"
+                id="tab-sos" aria-controls="panel-sos"
+                aria-selected="false" tabindex="-1" data-profile-tab="sos">SOS</button>
+    </nav>
+
+    <div class="profile-panels">
+        <section class="profile-panel" id="panel-general" role="tabpanel"
+                 aria-labelledby="tab-general" data-profile-panel="general">
+            <h2>Informações gerais</h2>
+            <form method="post" enctype="multipart/form-data" class="profile-form">
+                {% csrf_token %}
+                <div class="profile-photo-field">
+                    <div class="profile-photo-preview profile-avatar profile-initials"
+                         data-photo-preview aria-label="Prévia da foto de perfil">
+                        {% if profile_image_url %}
+                        <img class="profile-photo-image" src="{{ profile_image_url }}" alt="">
+                        {% else %}
+                        {{ profile_initials }}
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label class="form-label" for="{{ general_form.profile_picture.id_for_label }}">Foto de perfil</label>
+                        {{ general_form.profile_picture }}
+                        {{ general_form.profile_picture.errors }}
+                        <p class="field-hint">Escolha uma imagem de até 5 MB. Ela ficará visível somente na sua conta.</p>
+                        <p class="field-hint" data-photo-status role="status"></p>
+                    </div>
+                </div>
+                <div class="profile-form-grid">
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ general_form.name.id_for_label }}">Nome</label>
+                        {{ general_form.name }}
+                        {{ general_form.name.errors }}
+                    </div>
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ general_form.birth_date.id_for_label }}">Aniversário</label>
+                        {{ general_form.birth_date }}
+                        {{ general_form.birth_date.errors }}
+                    </div>
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ general_form.gender.id_for_label }}">Gênero</label>
+                        {{ general_form.gender }}
+                        {{ general_form.gender.errors }}
+                    </div>
+                    <div class="profile-field profile-field--wide">
+                        <span class="form-label">Endereço</span>
+                    </div>
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ general_form.address_street.id_for_label }}">Rua</label>
+                        {{ general_form.address_street }}
+                        {{ general_form.address_street.errors }}
+                    </div>
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ general_form.address_number.id_for_label }}">Número</label>
+                        {{ general_form.address_number }}
+                        {{ general_form.address_number.errors }}
+                    </div>
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ general_form.address_complement.id_for_label }}">Complemento</label>
+                        {{ general_form.address_complement }}
+                        {{ general_form.address_complement.errors }}
+                    </div>
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ general_form.address_neighborhood.id_for_label }}">Bairro</label>
+                        {{ general_form.address_neighborhood }}
+                        {{ general_form.address_neighborhood.errors }}
+                    </div>
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ general_form.address_city.id_for_label }}">Cidade</label>
+                        {{ general_form.address_city }}
+                        {{ general_form.address_city.errors }}
+                    </div>
+                </div>
+                {{ general_form.non_field_errors }}
+                <button class="action-button" type="submit" name="save_general">Salvar informações</button>
+
+                <dialog class="photo-crop-dialog" aria-labelledby="photo-crop-title"
+                        data-photo-crop-dialog>
+                    <div class="photo-crop-sheet">
+                        <div class="photo-crop-heading">
+                            <div>
+                                <p class="eyebrow">SUA FOTO</p>
+                                <h2 id="photo-crop-title">Ajuste o enquadramento</h2>
+                            </div>
+                            <button class="icon-button" type="button" aria-label="Fechar recorte"
+                                    data-photo-crop-cancel>&times;</button>
+                        </div>
+                        <p class="field-hint">Arraste a imagem para posicioná-la e use o controle para aproximar.</p>
+                        <div class="photo-crop-viewport" data-photo-crop-viewport>
+                            <img alt="Prévia do recorte da foto" data-photo-crop-image>
+                        </div>
+                        <label class="form-label photo-zoom-label" for="photo-zoom">Zoom</label>
+                        <input id="photo-zoom" type="range" min="1" max="3" step="0.01"
+                               value="1" data-photo-zoom>
+                        <div class="photo-crop-actions">
+                            <button class="action-button action-button--secondary" type="button"
+                                    data-photo-crop-cancel>Cancelar</button>
+                            <button class="action-button" type="button" data-photo-crop-confirm disabled>
+                                Usar esta foto
+                            </button>
+                        </div>
+                    </div>
+                </dialog>
+            </form>
+        </section>
+
+        <section class="profile-panel" id="panel-password" role="tabpanel"
+                 aria-labelledby="tab-password" data-profile-panel="password" hidden>
+            <h2>Redefinir senha</h2>
+            <p class="panel-description">Use sua senha atual para escolher uma nova.</p>
+            <form method="post" class="profile-form">
+                {% csrf_token %}
+                <div class="profile-form-grid">
+                    <div class="profile-field profile-field--wide">
+                        <label class="form-label" for="{{ password_form.old_password.id_for_label }}">Senha atual</label>
+                        {{ password_form.old_password }}
+                        {{ password_form.old_password.errors }}
+                    </div>
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ password_form.new_password1.id_for_label }}">Nova senha</label>
+                        {{ password_form.new_password1 }}
+                        {{ password_form.new_password1.errors }}
+                    </div>
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ password_form.new_password2.id_for_label }}">Confirme a nova senha</label>
+                        {{ password_form.new_password2 }}
+                        {{ password_form.new_password2.errors }}
+                    </div>
+                </div>
+                {{ password_form.non_field_errors }}
+                <button class="action-button" type="submit" name="save_password">Atualizar senha</button>
+            </form>
+        </section>
+
+        <section class="profile-panel" id="panel-health" role="tabpanel"
+                 aria-labelledby="tab-health" data-profile-panel="health" hidden>
+            <h2>Informações de saúde</h2>
+            <form method="post" class="profile-form">
+                {% csrf_token %}
+                <div class="profile-form-grid">
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ health_form.weight_kg.id_for_label }}">Peso (kg)</label>
+                        {{ health_form.weight_kg }}
+                        {{ health_form.weight_kg.errors }}
+                    </div>
+                    <div class="profile-field">
+                        <label class="form-label" for="{{ health_form.height_cm.id_for_label }}">Altura (cm)</label>
+                        {{ health_form.height_cm }}
+                        {{ health_form.height_cm.errors }}
+                    </div>
+                    <div class="profile-field profile-field--wide">
+                        <label class="form-label" for="{{ health_form.blood_type.id_for_label }}">Tipo sanguíneo</label>
+                        {{ health_form.blood_type }}
+                        {{ health_form.blood_type.errors }}
+                    </div>
+                    <div class="profile-field profile-field--wide">
+                        <span class="form-label">Medicamentos</span>
+                        <div class="incremental-list" data-medication-list>
+                            {% for medication in medications %}
+                            <div class="incremental-row medication-row">
+                                <div>
+                                    <label class="visually-hidden" for="medication-name-{{ forloop.counter }}">Medicamento</label>
+                                    <input id="medication-name-{{ forloop.counter }}" name="medication[]"
+                                           maxlength="160" value="{{ medication.name }}"
+                                           placeholder="Nome do medicamento">
+                                </div>
+                                <div>
+                                    <label class="visually-hidden" for="medication-dosage-{{ forloop.counter }}">Dose</label>
+                                    <input id="medication-dosage-{{ forloop.counter }}" name="medication_dosage[]"
+                                           maxlength="120" value="{{ medication.dosage }}" placeholder="Dose">
+                                </div>
+                                <div>
+                                    <label class="visually-hidden" for="medication-instructions-{{ forloop.counter }}">Instruções</label>
+                                    <input id="medication-instructions-{{ forloop.counter }}" name="medication_instructions[]"
+                                           maxlength="240" value="{{ medication.instructions }}"
+                                           placeholder="Instruções">
+                                </div>
+                                <button class="remove-row" type="button" aria-label="Remover medicamento"
+                                        {% if forloop.first and forloop.last %}disabled{% endif %}>&times;</button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {{ medication_form.non_field_errors }}
+                        <button class="inline-add-button" type="button" data-add-medication>
+                            + Adicionar medicamento
+                        </button>
+                    </div>
+                    <div class="profile-field profile-field--wide">
+                        <label class="form-label" for="{{ health_form.conditions.id_for_label }}">Condições importantes</label>
+                        {{ health_form.conditions }}
+                        {{ health_form.conditions.errors }}
+                    </div>
+                    <div class="profile-field profile-field--wide">
+                        <label class="form-label" for="{{ health_form.allergies_summary.id_for_label }}">Alergias</label>
+                        {{ health_form.allergies_summary }}
+                        {{ health_form.allergies_summary.errors }}
+                    </div>
+                    <div class="profile-field profile-field--wide">
+                        <label class="form-label" for="{{ health_form.surgeries_summary.id_for_label }}">Cirurgias</label>
+                        {{ health_form.surgeries_summary }}
+                        {{ health_form.surgeries_summary.errors }}
+                    </div>
+                    <fieldset class="profile-field profile-field--wide">
+                        <legend class="form-label">Você fuma?</legend>
+                        {{ health_form.is_smoker }}
+                        {{ health_form.is_smoker.errors }}
+                    </fieldset>
+                    <fieldset class="profile-field profile-field--wide">
+                        <legend class="form-label">Consome bebida alcoólica?</legend>
+                        {{ health_form.consumes_alcohol }}
+                        {{ health_form.consumes_alcohol.errors }}
+                    </fieldset>
+                </div>
+                {{ health_form.non_field_errors }}
+                <button class="action-button" type="submit" name="save_health">Salvar informações de saúde</button>
+            </form>
+        </section>
+
+        <section class="profile-panel" id="panel-sos" role="tabpanel"
+                 aria-labelledby="tab-sos" data-profile-panel="sos" hidden>
+            <h2>Contato e orientações de emergência</h2>
+            <form method="post" class="profile-form">
+                {% csrf_token %}
+                <div class="profile-form-grid">
+                    <div class="profile-field profile-field--wide">
+                        <span class="form-label">Contatos de emergência</span>
+                        <p class="field-hint">Adicione até 3 pessoas que possam ser contatadas.</p>
+                        <div class="incremental-list" data-emergency-contact-list>
+                            {% for contact in contacts %}
+                            <div class="incremental-row emergency-contact-row">
+                                <div>
+                                    <label class="visually-hidden" for="emergency-name-{{ forloop.counter }}">Nome do contato</label>
+                                    <input id="emergency-name-{{ forloop.counter }}" name="emergency_contact_name[]"
+                                           maxlength="150" value="{{ contact.name }}"
+                                           autocomplete="name" placeholder="Nome do contato">
+                                </div>
+                                <div>
+                                    <label class="visually-hidden" for="emergency-relationship-{{ forloop.counter }}">Vínculo</label>
+                                    <input id="emergency-relationship-{{ forloop.counter }}" name="emergency_contact_relationship[]"
+                                           maxlength="80" value="{{ contact.relationship }}" placeholder="Vínculo">
+                                </div>
+                                <div>
+                                    <label class="visually-hidden" for="emergency-phone-{{ forloop.counter }}">Telefone de emergência</label>
+                                    <input id="emergency-phone-{{ forloop.counter }}" name="emergency_contact_phone[]"
+                                           type="tel" maxlength="32" value="{{ contact.phone }}"
+                                           data-phone-mask="br" inputmode="tel"
+                                           autocomplete="tel" placeholder="Telefone">
+                                </div>
+                                <button class="remove-row" type="button" aria-label="Remover contato de emergência"
+                                        {% if forloop.first and forloop.last %}disabled{% endif %}>&times;</button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {{ contacts_form.non_field_errors }}
+                        <button class="inline-add-button" type="button" data-add-emergency-contact>
+                            + Adicionar contato
+                        </button>
+                    </div>
+                    <div class="profile-field profile-field--wide">
+                        <label class="form-label" for="{{ crisis_form.instructions.id_for_label }}">Orientações em caso de crise</label>
+                        {{ crisis_form.instructions }}
+                        {{ crisis_form.instructions.errors }}
+                    </div>
+                </div>
+                {{ crisis_form.non_field_errors }}
+                <button class="action-button" type="submit" name="save_sos">Salvar contatos e orientações</button>
+            </form>
+        </section>
+    </div>
+</div>
+{% endblock %}

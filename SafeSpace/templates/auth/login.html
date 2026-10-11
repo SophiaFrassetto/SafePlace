@@ -1,0 +1,34 @@
+{% extends "auth/base_auth.html" %}
+
+{% block title %}Entrar | SafeSpace{% endblock %}
+{% block heading %}Bem-vinde ao SafeSpace{% endblock %}
+{% block subtitle %}Entre na sua conta para continuar.{% endblock %}
+
+{% block content %}
+<form class="auth-form" method="post" action="{% url 'SafeSpace:index' %}">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+    <div class="form-field">
+        <label class="field-label" for="email">E-mail</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com"
+               value="{{ form.email.value|default:'' }}" maxlength="254" required>
+        {% for error in form.email.errors %}<p class="field-hint" role="alert">{{ error }}</p>{% endfor %}
+    </div>
+    <div class="form-field">
+        <div class="field-label-row">
+            <label class="field-label" for="password">Senha</label>
+            <a class="text-link" href="{% url 'SafeSpace:password_reset' %}">Esqueceu a senha?</a>
+        </div>
+        <input id="password" name="password" type="password" autocomplete="current-password" maxlength="128"
+            placeholder="Digite sua senha" required>
+        {% for error in form.password.errors %}<p class="field-hint" role="alert">{{ error }}</p>{% endfor %}
+    </div>
+    <button class="sticker primary-button" type="submit">Entrar</button>
+</form>
+{% for error in form.non_field_errors %}<p class="field-hint" role="alert">{{ error }}</p>{% endfor %}
+
+<p class="auth-prompt">
+    Ainda não tem uma conta?
+    <a class="text-link" href="{% url 'SafeSpace:signup' %}">Criar conta</a>
+</p>
+{% endblock %}

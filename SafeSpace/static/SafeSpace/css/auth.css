@@ -1,0 +1,323 @@
+.auth-page {
+    min-height: 100vh;
+    background-color: var(--color-paper-warm);
+    background-image: radial-gradient(var(--color-trans-pink) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.auth-layout {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+}
+
+.paper-card {
+    position: relative;
+    width: 100%;
+    max-width: 28rem;
+    padding: 2rem;
+    border: 2px solid var(--color-trans-white);
+    border-radius: var(--radius-card);
+    background:
+        repeating-linear-gradient(transparent 0 31px, var(--color-line) 32px),
+        var(--color-paper);
+    box-shadow: var(--shadow-paper);
+}
+
+.sticker {
+    border: 3px solid var(--color-trans-white);
+    box-shadow: var(--shadow-sticker);
+}
+
+.welcome-sticker,
+.sparkle-sticker {
+    position: absolute;
+}
+
+.welcome-sticker {
+    top: -1rem;
+    right: -0.75rem;
+    transform: rotate(4deg);
+    padding: 0.5rem 0.85rem;
+    border-radius: 9999px;
+    background: var(--color-trans-pink);
+    color: var(--color-ink);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.sparkle-sticker {
+    top: 7rem;
+    left: -1rem;
+    transform: rotate(-12deg);
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radius-control);
+    background: var(--color-trans-blue-strong);
+    color: var(--color-ink);
+    font-size: 1.125rem;
+}
+
+.card-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.brand-icon {
+    display: flex;
+    width: 3.5rem;
+    height: 3.5rem;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    border-radius: 1rem;
+    background: var(--color-trans-blue-strong);
+    color: var(--color-trans-white);
+}
+
+.brand-icon svg {
+    width: 1.75rem;
+    height: 1.75rem;
+}
+
+.card-header h1 {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: 1.5rem;
+    letter-spacing: -0.025em;
+}
+
+.subtitle {
+    margin: 0.5rem 0 0;
+    color: var(--color-ink-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-field {
+    min-width: 0;
+}
+
+.field-label,
+.field-label-row .field-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.field-label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.field-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.field-label-row .field-label {
+    margin: 0;
+}
+
+.form-field input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-control);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-size: 0.875rem;
+    transition: border-color 150ms, box-shadow 150ms;
+}
+
+.form-field input::placeholder {
+    color: var(--color-ink-soft);
+}
+
+.form-field input:focus {
+    border-color: var(--color-trans-blue-strong);
+    outline: none;
+    box-shadow: 0 0 0 4px var(--color-focus-ring);
+}
+
+.text-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.primary-button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-control);
+    background: var(--color-trans-blue-strong);
+    color: var(--color-ink);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 700;
+    transition: background-color 150ms, box-shadow 150ms, transform 150ms;
+}
+
+.primary-button:hover {
+    transform: translateY(-1px);
+    background: var(--color-trans-blue);
+}
+
+.primary-button:active {
+    transform: translateY(0);
+}
+
+.primary-button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--color-focus-ring);
+}
+
+.auth-prompt {
+    margin: 2rem 0 0;
+    color: var(--color-ink-muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.field-hint {
+    margin: 0.4rem 0 0;
+    color: var(--color-ink-muted);
+    font-size: 0.75rem;
+}
+
+.password-strength {
+    margin-top: 0.75rem;
+}
+
+.password-strength-track {
+    height: 0.5rem;
+    overflow: hidden;
+    border-radius: 9999px;
+    background: var(--color-line);
+}
+
+.password-strength-fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--color-trans-pink);
+    transition: width 180ms ease, background-color 180ms ease;
+}
+
+.password-strength-fill[data-strength="weak"] {
+    background: var(--color-trans-pink);
+}
+
+.password-strength-fill[data-strength="medium"] {
+    background: var(--color-lavender);
+}
+
+.password-strength-fill[data-strength="good"] {
+    background: var(--color-trans-blue);
+}
+
+.password-strength-fill[data-strength="strong"] {
+    background: var(--color-mint);
+}
+
+.password-strength-label {
+    margin: 0.35rem 0 0;
+    color: var(--color-ink-muted);
+    font-size: 0.75rem;
+}
+
+.password-requirements {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0.65rem 0 0;
+    padding: 0;
+    color: var(--color-ink-muted);
+    font-size: 0.75rem;
+    list-style: none;
+}
+
+.password-requirements li::before {
+    margin-right: 0.45rem;
+    color: var(--color-ink-soft);
+    content: "○";
+}
+
+.password-requirements li[data-valid="true"] {
+    color: var(--color-link-hover);
+}
+
+.password-requirements li[data-valid="true"]::before {
+    color: var(--color-link-hover);
+    content: "✓";
+}
+
+@media (min-width: 640px) {
+    .paper-card {
+        padding: 2.5rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .auth-layout {
+        padding: 2.5rem 0.75rem;
+    }
+
+    .paper-card {
+        padding: 2rem 1.25rem;
+        border-radius: 1.5rem;
+    }
+
+    .welcome-sticker {
+        right: -0.35rem;
+        font-size: 0.6875rem;
+    }
+
+    .sparkle-sticker {
+        left: -0.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .auth-layout {
+        min-height: 100svh;
+        align-items: center;
+        padding-top: 3.5rem;
+        padding-bottom: 2rem;
+    }
+
+    .paper-card {
+        max-width: 32rem;
+    }
+
+    .auth-form {
+        gap: 1rem;
+    }
+
+    .field-label-row {
+        align-items: flex-start;
+    }
+
+    .auth-form input,
+    .primary-button {
+        min-height: 2.875rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto;
+        transition-duration: 0.01ms;
+    }
+}

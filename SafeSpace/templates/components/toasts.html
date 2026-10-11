@@ -1,0 +1,11 @@
+<div class="toast-region" aria-live="polite" aria-relevant="additions text">
+    {% for message in messages %}
+    <div class="toast toast--{{ message.level_tag|default:'info' }}"
+         role="{% if message.level_tag == 'error' %}alert{% else %}status{% endif %}"
+         data-toast>
+        <p class="toast-message">{{ message }}</p>
+        <button class="toast-dismiss" type="button" data-toast-dismiss
+                aria-label="Fechar notificação">&times;</button>
+    </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,86 @@
+{% extends "base_app.html" %}
+{% load static %}
+{% block title %}Início | SafeSpace{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/home.css' %}?v=6">{% endblock %}
+{% block page_class %}home-page{% endblock %}
+{% block app_content %}
+<section class="home-welcome" aria-labelledby="welcome-title">
+    <span class="welcome-decoration" aria-hidden="true">✿</span>
+    <p class="eyebrow">SEU CANTINHO, NO SEU TEMPO</p>
+    <h1 id="welcome-title">{{ welcome_message }}</h1>
+</section>
+
+<section class="home-tools-grid" aria-label="Atalhos e afazeres">
+    <section class="home-todo-note" id="home-tasks" aria-labelledby="home-tasks-title">
+        <header class="home-note-heading">
+            <div>
+                <p class="eyebrow">PEQUENOS PASSOS</p>
+                <h2 id="home-tasks-title">Meus afazeres</h2>
+            </div>
+            <span class="home-note-decoration" aria-hidden="true">✎</span>
+        </header>
+        {% if tasks_page.object_list %}
+        <ul class="home-todo-list">
+            {% for task in tasks_page %}
+            <li class="home-todo-item">
+                <form method="post" action="{% url 'diary_task_complete' task.pk %}?task_page={{ tasks_page.number }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="task_page" value="{{ tasks_page.number }}">
+                    <button class="home-todo-complete" type="submit" aria-label="Marcar como concluído: {{ task.text }}">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </form>
+                <span class="home-todo-text">{{ task.text }}</span>
+                <a class="home-todo-open" href="{% url 'diary' %}?entry={{ task.diary_entry_id }}#diary-tasks"
+                   aria-label="Abrir no diário: {{ task.text }}" title="Abrir no diário">
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M5 4.5h10.5A2.5 2.5 0 0 1 18 7v13H7a2 2 0 0 1-2-2z"/>
+                        <path d="M7 4.5v13a2.5 2.5 0 0 1 2.5-2.5H18M9 8h5"/>
+                    </svg>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="home-todo-empty">
+            {% if has_completed_tasks %}
+            Todos os afazeres foram concluídos. Eles continuam guardados nas páginas do diário.
+            {% else %}
+            Nenhum afazer por aqui. Você pode adicionar um no seu diário.
+            {% endif %}
+        </p>
+        {% endif %}
+        <footer class="home-note-footer">
+            <a href="{% url 'diary' %}">Abrir meu diário</a>
+            {% if tasks_page.paginator.num_pages > 1 %}
+            <nav class="home-task-pagination" aria-label="Páginas de afazeres">
+                {% if tasks_page.has_previous %}
+                <a href="?task_page={{ tasks_page.previous_page_number }}#home-tasks" aria-label="Afazeres anteriores">
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+                </a>
+                {% endif %}
+                <span>{{ tasks_page.number }}/{{ tasks_page.paginator.num_pages }}</span>
+                {% if tasks_page.has_next %}
+                <a href="?task_page={{ tasks_page.next_page_number }}#home-tasks" aria-label="Mais afazeres">
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+                {% endif %}
+            </nav>
+            {% endif %}
+        </footer>
+    </section>
+
+    <a class="home-sos-note" href="{{ sos_settings_url }}">
+        <span class="home-sos-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+                <path d="M3.5 3.5h6v6h-6zM14.5 3.5h6v6h-6zM3.5 14.5h6v6h-6z"/>
+                <path d="M14.5 14.5h2v2h-2zM18.5 14.5h2v6h-2zM14.5 18.5h2v2h-2z"/>
+            </svg>
+        </span>
+        <span class="eyebrow">UM ATALHO PARA EMERGÊNCIAS</span>
+        <strong>Aqui está seu QR Code</strong>
+        <span>Acesse as configurações clicando aqui.</span>
+        <span class="home-sos-link" aria-hidden="true">Configurar meu SOS <span>→</span></span>
+    </a>
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}SafeSpace{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'SafeSpace/css/theme.css' %}">
+    {% block page_styles %}{% endblock %}
+    <script src="{% static 'SafeSpace/js/site.js' %}?v=2" defer></script>
+    {% block page_scripts %}{% endblock %}
+</head>
+<body class="app-page {% block page_class %}{% endblock %}">
+    {% include "components/toasts.html" %}
+    {% include "components/app_navigation.html" %}
+    <main class="app-content">
+        {% block app_content %}{% endblock %}
+    </main>
+</body>
+</html>

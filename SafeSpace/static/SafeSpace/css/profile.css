@@ -1,0 +1,524 @@
+.profile-layout {
+    display: grid;
+    grid-template-columns: 13rem minmax(0, 1fr);
+    align-items: start;
+    gap: 1.25rem;
+}
+
+.profile-tabs {
+    position: sticky;
+    top: 5.5rem;
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.65rem;
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    background: var(--color-paper);
+    box-shadow: var(--shadow-sticker);
+}
+
+.profile-tab {
+    min-height: 2.75rem;
+    padding: 0.65rem 0.75rem;
+    border: 0;
+    border-radius: 0.75rem;
+    background: transparent;
+    color: var(--color-ink-muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+.profile-tab:hover,
+.profile-tab.is-active {
+    background: var(--color-focus-ring);
+    color: var(--color-link-hover);
+}
+
+.profile-panels {
+    min-width: 0;
+    padding: clamp(1.1rem, 3vw, 1.75rem);
+    border: 2px solid var(--color-trans-white);
+    border-radius: 1.5rem;
+    background: var(--color-paper);
+    box-shadow: var(--shadow-sticker);
+}
+
+.profile-panel[hidden] {
+    display: none;
+}
+
+.profile-panel h2 {
+    margin: 0 0 1.25rem;
+    font-size: 1.25rem;
+}
+
+.profile-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.profile-field {
+    display: grid;
+    min-width: 0;
+    align-content: start;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.profile-field--wide {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    display: block;
+    color: var(--color-ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.profile-field
+    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
+.profile-field select,
+.profile-field textarea {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font: inherit;
+    font-size: 0.9rem;
+}
+
+.profile-field textarea {
+    min-height: 6rem;
+    resize: vertical;
+}
+
+.profile-field input:focus,
+.profile-field select:focus,
+.profile-field textarea:focus {
+    border-color: var(--color-trans-blue-strong);
+    outline: 3px solid var(--color-focus-ring);
+}
+
+.profile-photo-field {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px dashed var(--color-border);
+    border-radius: 1rem;
+    background: var(--color-paper-translucent);
+}
+
+.profile-photo-preview {
+    width: 4.5rem;
+    height: 4.5rem;
+    flex: 0 0 auto;
+}
+
+.profile-photo-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    object-fit: cover;
+    object-position: center;
+}
+
+.profile-photo-field input[type="file"] {
+    display: block;
+    max-width: 100%;
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+}
+
+.profile-form > .action-button {
+    margin-top: 1.25rem;
+}
+
+.profile-form input[type="file"] {
+    color: var(--color-ink);
+}
+
+.photo-crop-dialog {
+    width: min(32rem, calc(100vw - 2rem));
+    max-width: none;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    border-radius: 1.5rem;
+    background: transparent;
+    color: var(--color-ink);
+}
+
+.photo-crop-dialog::backdrop {
+    background: var(--color-overlay);
+    backdrop-filter: blur(3px);
+}
+
+.photo-crop-sheet {
+    padding: 1.5rem;
+    border: 2px solid var(--color-trans-white);
+    border-radius: 1.5rem;
+    background: var(--color-paper);
+    box-shadow: var(--shadow-menu);
+}
+
+.photo-crop-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.photo-crop-heading h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.photo-crop-heading .eyebrow {
+    margin: 0 0 0.35rem;
+}
+
+.photo-crop-viewport {
+    position: relative;
+    width: min(19rem, 100%);
+    aspect-ratio: 1;
+    margin: 1rem auto;
+    overflow: hidden;
+    border: 3px solid var(--color-trans-white);
+    border-radius: 1rem;
+    background: var(--color-lavender-surface);
+    box-shadow: var(--shadow-sticker);
+    cursor: grab;
+    touch-action: none;
+}
+
+.photo-crop-viewport:active {
+    cursor: grabbing;
+}
+
+.photo-crop-viewport img {
+    position: absolute;
+    max-width: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.photo-zoom-label {
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+.photo-crop-dialog input[type="range"] {
+    width: 100%;
+    accent-color: var(--color-link);
+}
+
+.photo-crop-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.65rem;
+    margin-top: 1rem;
+}
+
+.photo-crop-actions .action-button {
+    min-height: 2.75rem;
+}
+
+.field-hint,
+.form-footnote,
+.panel-description {
+    color: var(--color-ink-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.field-hint {
+    margin: 0.35rem 0 0;
+}
+
+.form-footnote {
+    margin: 1rem 0 0;
+}
+
+.panel-description {
+    margin: -0.65rem 0 1rem;
+}
+
+.profile-panels > .action-button {
+    margin-top: 1rem;
+}
+
+.choice-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.choice-row label {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-ink-muted);
+    font-size: 0.9rem;
+}
+
+.choice-row input {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--color-link);
+}
+
+.profile-field input[type="radio"] {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+    margin: 0;
+    accent-color: var(--color-link);
+}
+
+.profile-field .choice-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+}
+
+.profile-field .choice-options > div {
+    display: flex;
+}
+
+.profile-field .choice-options label {
+    display: inline-flex;
+    min-height: 2rem;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-ink-muted);
+    font-size: 0.9rem;
+}
+
+.incremental-list {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.incremental-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.medication-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+}
+
+.incremental-row > div {
+    min-width: 0;
+    flex: 1;
+}
+
+.incremental-row input:not([type="checkbox"]) {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font: inherit;
+    font-size: 0.9rem;
+}
+
+.emergency-contact-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+}
+
+.emergency-contact-row > div {
+    min-width: 0;
+}
+
+.emergency-contact-row input {
+    flex: 1;
+}
+
+.emergency-contact-row input[type="tel"] {
+    font-variant-numeric: tabular-nums;
+}
+
+.remove-row,
+.inline-add-button {
+    min-height: 2.5rem;
+    padding: 0.4rem 0.65rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+    background: var(--color-paper);
+    color: var(--color-link);
+    cursor: pointer;
+    font: inherit;
+}
+
+.remove-row {
+    min-width: 2.5rem;
+    font-size: 1.2rem;
+}
+
+.remove-row:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.remove-row:not(:disabled) {
+    background: var(--color-paper);
+}
+
+.inline-add-button {
+    justify-self: start;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.remove-row:hover:not(:disabled),
+.inline-add-button:hover {
+    background: var(--color-focus-ring);
+}
+
+@media (max-width: 760px) {
+    .profile-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.75rem;
+    }
+
+    .profile-tabs {
+        position: static;
+        display: flex;
+        gap: 0.4rem;
+        overflow-x: auto;
+        padding: 0.5rem;
+        scrollbar-width: thin;
+    }
+
+    .profile-tab {
+        flex: 0 0 auto;
+        text-align: center;
+    }
+}
+
+@media (max-width: 520px) {
+    .photo-crop-dialog {
+        position: fixed;
+        inset: auto 0 0;
+        width: 100%;
+        max-height: min(90vh, 46rem);
+        margin: 0;
+        animation: profile-sheet-rise 220ms ease-out;
+    }
+
+    .photo-crop-sheet {
+        max-height: min(90vh, 46rem);
+        overflow-y: auto;
+        padding: 1.25rem max(1rem, env(safe-area-inset-right))
+            calc(1rem + env(safe-area-inset-bottom))
+            max(1rem, env(safe-area-inset-left));
+        border-radius: 1.4rem 1.4rem 0 0;
+    }
+
+    .photo-crop-viewport {
+        width: min(17rem, 100%);
+    }
+
+    .photo-crop-actions {
+        position: sticky;
+        bottom: 0;
+        padding-top: 0.75rem;
+        background: var(--color-paper);
+    }
+
+    .profile-panels {
+        padding: 1rem;
+        border-radius: 1.1rem;
+    }
+
+    .profile-form-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.85rem;
+    }
+
+    .profile-field--wide {
+        grid-column: auto;
+    }
+
+    .emergency-contact-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .medication-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .medication-row > div {
+        grid-column: 1;
+    }
+
+    .medication-row .remove-row {
+        grid-column: 2;
+        grid-row: 1 / span 3;
+    }
+
+    .emergency-contact-row > div:nth-child(1),
+    .emergency-contact-row > div:nth-child(2) {
+        grid-column: 1;
+    }
+
+    .emergency-contact-row > div:nth-child(3) {
+        grid-column: 1;
+    }
+
+    .emergency-contact-row .remove-row {
+        grid-column: 2;
+        grid-row: 1 / span 3;
+    }
+
+    .profile-photo-field {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .profile-photo-preview {
+        align-self: center;
+    }
+
+    .profile-photo-field > div:not(.profile-photo-preview) {
+        width: 100%;
+    }
+}
+
+@keyframes profile-sheet-rise {
+    from {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .photo-crop-dialog {
+        animation-duration: 0.01ms;
+    }
+}
