@@ -1,7 +1,7 @@
 ﻿{% extends "base_app.html" %}
 {% load static %}
 {% block title %}Início | SafeSpace{% endblock %}
-{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/home.css' %}?v=7">{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/home.css' %}?v=8">{% endblock %}
 {% block page_class %}home-page{% endblock %}
 {% block app_content %}
 <section class="home-welcome paper-card tape" aria-labelledby="welcome-title">
@@ -55,7 +55,7 @@
                         <span aria-hidden="true"></span>
                     </button>
                 </form>
-                <span class="home-todo-text">{{ task.text }}</span>
+                <span class="home-todo-text">{{ task.text }} <span class="home-todo-date">- {{ task.diary_entry.entry_date|default:task.created_at|date:"d/m/Y" }}</span></span>
                 <a class="home-todo-open" href="{% url 'diary' %}?entry={{ task.diary_entry_id }}#diary-tasks"
                    aria-label="Abrir no diário: {{ task.text }}" title="Abrir no diário">
                     <svg aria-hidden="true" viewBox="0 0 24 24">

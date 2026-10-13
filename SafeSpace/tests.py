@@ -1,4 +1,5 @@
-﻿from io import BytesIO
+﻿import datetime
+from io import BytesIO
 from pathlib import Path
 from typing import Iterable, cast
 from urllib.parse import urlsplit
@@ -89,7 +90,7 @@ class AuthenticationPageTests(TestCase):
         self.assertContains(response, 'data-app-tabs')
         self.assertNotContains(response, 'data-menu-toggle')
         self.assertContains(response, 'data-notification-toggle')
-        self.assertContains(response, 'SafeSpace/css/home.css?v=7')
+        self.assertContains(response, 'SafeSpace/css/home.css?v=8')
         self.assertContains(response, 'SafeSpace/js/site.js')
         self.assertContains(response, 'class="profile-avatar profile-initials"')
         self.assertContains(response, "Diário")
@@ -122,7 +123,9 @@ class AuthenticationPageTests(TestCase):
     def test_home_shows_pending_tasks_with_diary_link_and_pagination(self) -> None:
         user = self.create_user()
         first_entry = DiaryEntry.objects.create(user=user, content="Página inicial")
-        for index in range(5):
+        first_entry.entry_date = datetime.date(2026, 10, 13)
+        first_entry.save()
+        for index in range(11):
             DiaryTask.objects.create(
                 diary_entry=first_entry,
                 text=f"Afazer {index + 1}",
@@ -133,12 +136,13 @@ class AuthenticationPageTests(TestCase):
         first_page = self.client.get(reverse("home"))
         second_page = self.client.get(reverse("home"), {"task_page": "2"})
 
-        self.assertContains(first_page, "Afazer 1")
-        self.assertContains(first_page, "Afazer 4")
-        self.assertNotContains(first_page, "Afazer 5")
+        self.assertContains(first_page, "Afazer 1 ")
+        self.assertContains(first_page, "Afazer 10")
+        self.assertNotContains(first_page, "Afazer 11")
+        self.assertContains(first_page, "- 13/10/2026")
         self.assertContains(first_page, "diario/?entry=")
         self.assertContains(first_page, "Mais afazeres")
-        self.assertContains(second_page, "Afazer 5")
+        self.assertContains(second_page, "Afazer 11")
 
     def test_diary_requires_saved_content_before_creating_next_page(self) -> None:
         user = self.create_user()
