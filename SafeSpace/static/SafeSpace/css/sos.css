@@ -45,7 +45,7 @@
 
 .sos-layout {
     display: grid;
-    grid-template-columns: minmax(20rem, 0.85fr) minmax(0, 1.15fr);
+    grid-template-columns: minmax(26rem, 1fr) minmax(0, 1fr);
     align-items: start;
     gap: 1.25rem;
 }
@@ -139,15 +139,16 @@
 
 .sos-options {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.65rem;
+    grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+    align-items: start;
+    gap: 0.5rem;
     margin: 0;
     padding: 0;
     border: 0;
 }
 
 .sos-options legend {
-    margin-bottom: 0.65rem;
+    margin-bottom: 0.6rem;
     padding: 0;
     color: var(--color-ink);
     font-size: var(--text-sm);
@@ -157,9 +158,9 @@
 .sos-option {
     position: relative;
     min-width: 0;
-    padding: 0.8rem 0.9rem;
-    border: 2px solid var(--color-line);
-    border-radius: 1.1rem;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.85rem;
     background: var(--color-paper);
     transition: border-color 180ms ease, background 180ms ease, transform 180ms var(--ease-soft);
 }
@@ -181,7 +182,7 @@
 .sos-option-label {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.55rem;
     color: var(--color-ink-muted);
     cursor: pointer;
 }
@@ -195,20 +196,20 @@
 
 .sos-option-check {
     display: grid;
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 1.3rem;
+    height: 1.3rem;
     flex: 0 0 auto;
     place-items: center;
     border: 2px solid var(--color-border);
-    border-radius: 0.55rem;
+    border-radius: 0.45rem;
     background: var(--color-paper);
     color: transparent;
     transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms var(--ease-soft);
 }
 
 .sos-option-check svg {
-    width: 1rem;
-    height: 1rem;
+    width: 0.8rem;
+    height: 0.8rem;
 }
 
 .sos-option:has(input:checked) .sos-option-check {
@@ -219,31 +220,28 @@
 }
 
 .sos-option-title {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    column-gap: 0.45rem;
+    min-width: 0;
     color: var(--color-ink);
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     font-weight: 700;
-    line-height: 1.35;
+    line-height: 1.3;
 }
 
 .sos-card-availability {
-    padding: 0.1rem 0.5rem;
-    border-radius: 999px;
-    background: var(--color-pink-surface);
+    display: block;
     color: var(--color-ink-muted);
-    font-size: var(--text-xs);
-    font-weight: 700;
+    font-size: 0.7rem;
+    font-weight: 600;
 }
 
 .sos-option-preview {
-    margin: 0.35rem 0 0 2.3rem;
+    margin: 0.2rem 0 0 1.85rem;
+    overflow: hidden;
     color: var(--color-ink-muted);
-    font-size: var(--text-sm);
-    line-height: 1.45;
-    overflow-wrap: anywhere;
+    font-size: var(--text-xs);
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .sos-privacy-notice {
@@ -337,15 +335,31 @@
     pointer-events: none;
 }
 
+.id-card::after {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+        radial-gradient(circle at 100% 0, var(--color-trans-blue) 0 14%, transparent 14.5%),
+        radial-gradient(circle at 100% 0, var(--color-blue-surface) 0 24%, transparent 24.5%),
+        radial-gradient(circle at 0 100%, var(--color-trans-pink) 0 14%, transparent 14.5%),
+        radial-gradient(circle at 0 100%, var(--color-pink-surface) 0 24%, transparent 24.5%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%237cc8ec' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' opacity='.55'%3E%3Cpath d='M78 12l2 5 5 2-5 2-2 5-2-5-5-2 5-2z'/%3E%3Cpath d='M12 60c-3-3-1-7 2-7 2 0 3 1 3 2 0-1 1-2 3-2 3 0 5 4 2 7l-5 5z' stroke='%23f2a7c3'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+    content: "";
+    pointer-events: none;
+}
+
 .id-card-brand {
     z-index: 1;
     display: flex;
     min-height: 7%;
     align-items: center;
     gap: 2%;
-    color: var(--color-ink-muted);
+    padding: 2% 0 3%;
+    border-bottom: 1px solid var(--color-pink-surface);
+    color: var(--color-ink);
     font-size: clamp(0.52rem, 3cqi, 0.8rem);
-    font-weight: 700;
+    font-weight: 800;
 }
 
 .id-card-brand img {
@@ -381,11 +395,12 @@
 
 .id-card-field-label {
     display: block;
-    color: var(--color-ink-muted);
+    color: var(--color-link);
     font-size: clamp(0.5rem, 2.9cqi, 0.8rem);
-    font-weight: 700;
-    letter-spacing: 0.035em;
+    font-weight: 800;
+    letter-spacing: 0.05em;
     line-height: 1.25;
+    text-transform: uppercase;
 }
 
 .id-card-field-value {
@@ -414,10 +429,10 @@
     flex: 0 0 auto;
     place-items: center;
     overflow: hidden;
-    border: 2px solid var(--color-trans-white);
+    border: 3px solid var(--color-trans-white);
     border-radius: 1rem;
     background: var(--color-lavender-surface);
-    box-shadow: var(--shadow-sticker);
+    box-shadow: 0 0 0 2px var(--color-trans-blue), var(--shadow-sticker);
     color: var(--color-ink-muted);
     font-size: clamp(0.45rem, 2.5cqi, 0.7rem);
     text-align: center;
@@ -433,6 +448,10 @@
 .id-card-blood {
     display: grid;
     gap: 0.25rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.7rem;
+    background: var(--color-paper);
+    box-shadow: inset 0 0 0 1px var(--color-trans-pink);
 }
 
 .id-card-blood strong {
@@ -823,8 +842,8 @@
 }
 
 @media (max-width: 360px) {
-    .sos-option-preview {
-        margin-left: 0;
+    .sos-options {
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 

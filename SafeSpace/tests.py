@@ -90,7 +90,7 @@ class AuthenticationPageTests(TestCase):
         self.assertContains(response, 'data-app-tabs')
         self.assertNotContains(response, 'data-menu-toggle')
         self.assertContains(response, 'data-notification-toggle')
-        self.assertContains(response, 'SafeSpace/css/home.css?v=8')
+        self.assertContains(response, 'SafeSpace/css/home.css?v=9')
         self.assertContains(response, 'SafeSpace/js/site.js')
         self.assertContains(response, 'class="profile-avatar profile-initials"')
         self.assertContains(response, "Diário")
@@ -125,7 +125,7 @@ class AuthenticationPageTests(TestCase):
         first_entry = DiaryEntry.objects.create(user=user, content="Página inicial")
         first_entry.entry_date = datetime.date(2026, 10, 13)
         first_entry.save()
-        for index in range(11):
+        for index in range(6):
             DiaryTask.objects.create(
                 diary_entry=first_entry,
                 text=f"Afazer {index + 1}",
@@ -137,12 +137,12 @@ class AuthenticationPageTests(TestCase):
         second_page = self.client.get(reverse("home"), {"task_page": "2"})
 
         self.assertContains(first_page, "Afazer 1 ")
-        self.assertContains(first_page, "Afazer 10")
-        self.assertNotContains(first_page, "Afazer 11")
+        self.assertContains(first_page, "Afazer 5")
+        self.assertNotContains(first_page, "Afazer 6")
         self.assertContains(first_page, "- 13/10/2026")
         self.assertContains(first_page, "diario/?entry=")
         self.assertContains(first_page, "Mais afazeres")
-        self.assertContains(second_page, "Afazer 11")
+        self.assertContains(second_page, "Afazer 6")
 
     def test_diary_requires_saved_content_before_creating_next_page(self) -> None:
         user = self.create_user()
@@ -252,6 +252,42 @@ class AuthenticationPageTests(TestCase):
         )
         self.assertContains(diary_response, task.text)
         self.assertContains(diary_response, "Concluído")
+
+    def test_diary_tasks_sit_beside_the_page_with_five_per_page(self) -> None:
+        user = self.create_user()
+        entry = DiaryEntry.objects.create(user=user, content="Meu registro")
+        for index in range(1, 7):
+            DiaryTask.objects.create(
+                diary_entry=entry,
+                text=f"Passo {index}",
+                position=index,
+            )
+        self.client.force_login(user)
+        url = reverse("diary")
+
+        first = self.client.get(url, {"entry": str(entry.pk)})
+        self.assertContains(first, "diary-layout")
+        self.assertContains(first, "Passo 5")
+        self.assertNotContains(first, "Passo 6")
+        self.assertContains(first, "task_page=2")
+
+        second = self.client.get(url, {"entry": str(entry.pk), "task_page": "2"})
+        self.assertContains(second, "Passo 6")
+        self.assertNotContains(second, "Passo 1<")
+
+        add = self.client.post(
+            url,
+            {
+                "entry_id": str(entry.pk),
+                "entry_date": "",
+                "mood": "",
+                "content": entry.content,
+                "action": "add_task",
+                "text": "Passo 7",
+            },
+        )
+        self.assertEqual(add.status_code, 302)
+        self.assertIn("task_page=2", add["Location"])
 
     def test_diary_task_can_be_completed_and_reopened_from_its_page(self) -> None:
         user = self.create_user()
@@ -458,7 +494,7 @@ class AuthenticationPageTests(TestCase):
         self.assertContains(response, "data-page-next")
         self.assertContains(response, "data-page-previous")
         self.assertContains(response, "diary-corner-controls")
-        self.assertContains(response, "SafeSpace/css/diary.css?v=5")
+        self.assertContains(response, "SafeSpace/css/diary.css?v=6")
         self.assertNotContains(response, "diary-pagination")
         self.assertContains(response, 'name="action"')
         self.assertContains(response, 'value="save_entry"')
@@ -476,7 +512,7 @@ class AuthenticationPageTests(TestCase):
         self.assertContains(sos_response, "gerar QR Code")
         self.assertContains(sos_response, "Salvar e gerar QR Code")
         self.assertContains(sos_response, "QR Code")
-        self.assertContains(sos_response, "?v=9")
+        self.assertContains(sos_response, "?v=11")
         self.assertContains(sos_response, "data-print-card")
         self.assertContains(sos_response, "Complete suas informações")
         self.assertContains(sos_response, "Configurar meu perfil")

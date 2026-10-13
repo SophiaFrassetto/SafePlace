@@ -72,7 +72,7 @@
 /* Cartões */
 .home-tools-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.6fr);
+    grid-template-columns: minmax(0, 32rem) minmax(16rem, 1fr);
     align-items: start;
     gap: 1.75rem;
     margin-top: 2rem;
@@ -122,9 +122,9 @@
 
 .home-todo-list {
     display: grid;
-    gap: 0.5rem;
-    min-height: 5.7rem;
-    margin: 1rem 0 0;
+    gap: 0.3rem;
+    min-height: 4rem;
+    margin: 0.8rem 0 0;
     padding: 0;
     list-style: none;
 }
@@ -132,12 +132,13 @@
 .home-todo-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    min-height: 3.1rem;
-    padding: 0.35rem 0.5rem 0.35rem 0.75rem;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-control);
-    background: var(--color-paper);
+    gap: 0.6rem;
+    min-height: 2.3rem;
+    padding: 0.15rem 0.35rem 0.15rem 0.6rem;
+    border: 0;
+    border-bottom: 1px solid var(--color-line);
+    border-radius: 0;
+    background: transparent;
     transition: transform 180ms var(--ease-soft), border-color 180ms ease;
 }
 
@@ -153,8 +154,8 @@
 
 .home-todo-complete {
     display: grid;
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 1.3rem;
+    height: 1.3rem;
     place-items: center;
     padding: 0;
     border: 2px solid var(--color-trans-blue-strong);
@@ -170,8 +171,8 @@
 }
 
 .home-todo-complete span {
-    width: 0.45rem;
-    height: 0.45rem;
+    width: 0.4rem;
+    height: 0.4rem;
     border-radius: 50%;
     background: var(--color-trans-pink);
 }
@@ -182,7 +183,7 @@
     overflow-wrap: anywhere;
     color: var(--color-ink);
     font-size: var(--text-sm);
-    line-height: 1.45;
+    line-height: 1.35;
 }
 
 .home-todo-date {
@@ -194,8 +195,8 @@
 .home-todo-open,
 .home-task-pagination a {
     display: grid;
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2rem;
+    height: 2rem;
     flex: 0 0 auto;
     place-items: center;
     border-radius: 50%;

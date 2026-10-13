@@ -18,7 +18,7 @@ def home(request: HttpRequest) -> HttpResponse:
         diary_entry__user=user,
         is_completed=False,
     ).select_related("diary_entry")
-    task_page = Paginator(tasks.order_by("created_at", "pk"), 10).get_page(
+    task_page = Paginator(tasks.order_by("created_at", "pk"), 5).get_page(
         request.GET.get("task_page")
     )
     return render(

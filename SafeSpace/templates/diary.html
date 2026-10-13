@@ -1,7 +1,7 @@
 {% extends "base_app.html" %}
 {% load static %}
 {% block title %}Diário | SafeSpace{% endblock %}
-{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/diary.css' %}?v=5">{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/diary.css' %}?v=6">{% endblock %}
 {% block page_scripts %}<script src="{% static 'SafeSpace/js/diary.js' %}?v=3" defer></script>{% endblock %}
 {% block page_class %}diary-page{% endblock %}
 {% block app_content %}
@@ -20,6 +20,7 @@
     </svg>
 </header>
 
+<div class="diary-layout">
 <section class="diary-book" aria-label="Caderno do diário">
     <div class="diary-binding" aria-hidden="true"></div>
     <div class="diary-page-stack">
@@ -29,9 +30,10 @@
                 <span class="diary-date-label">Página</span>
                 <span class="diary-page-number sticker-badge" data-page-number>{{ page_number }}</span>
             </div>
-            <form method="post" class="diary-entry-form"
+            <form method="post" class="diary-entry-form" id="diary-entry-form"
                       data-diary-entry-form>
                 {% csrf_token %}
+                <input type="hidden" name="task_page" value="{{ task_page.number|default:1 }}">
                 <input type="hidden" name="entry_id" value="{{ active_entry.pk|default_if_none:'' }}">
                 <div class="diary-meta-row">
                     <div class="diary-field">
@@ -48,36 +50,6 @@
                 <label class="diary-label" for="{{ entry_form.content.id_for_label }}">O que gostaria de registrar?</label>
                 {{ entry_form.content }}
                 {{ entry_form.content.errors }}
-
-                <section class="todo-panel" aria-labelledby="todo-title">
-                    <div class="todo-heading">
-                        <h2 id="todo-title">Afazeres desta página</h2>
-                        <span>pequenos passos também contam</span>
-                    </div>
-                    <div class="todo-form">
-                        <label class="visually-hidden" for="{{ task_form.text.id_for_label }}">Novo afazer</label>
-                        {{ task_form.text }}
-                        <button class="action-button action-button--secondary" type="submit"
-                                name="action" value="add_task">Adicionar</button>
-                    </div>
-                    {{ task_form.text.errors }}
-                    <ul class="todo-list" id="diary-tasks" aria-live="polite">
-                        {% for task in page_tasks %}
-                        <li class="todo-item{% if task.is_completed %} todo-item--completed{% endif %}">
-                            <button class="todo-item-toggle" type="submit"
-                                    name="toggle_task_id" value="{{ task.pk }}" formnovalidate
-                                    aria-pressed="{{ task.is_completed|yesno:'true,false' }}"
-                                    aria-label="{% if task.is_completed %}Desconcluir{% else %}Concluir{% endif %} tarefa: {{ task.text }}">
-                                <span class="todo-item-status" aria-hidden="true">{% if task.is_completed %}<svg viewBox="0 0 24 24"><path d="m6 12.500 4 4 8-9"/></svg>{% endif %}</span>
-                            </button>
-                            <span class="todo-item-text">{{ task.text }}</span>
-                            {% if task.is_completed %}<span class="todo-item-completed-label">Concluído</span>{% endif %}
-                        </li>
-                        {% empty %}
-                        <li class="todo-empty">Os afazeres que você adicionar ficam guardados nesta página.</li>
-                        {% endfor %}
-                    </ul>
-                </section>
                 <div class="diary-save-row">
                     <button class="action-button" type="submit" name="action"
                             value="save_entry" formnovalidate>
@@ -165,4 +137,50 @@
     </dialog>
     {% endif %}
 </section>
+
+<aside class="todo-panel" aria-labelledby="todo-title">
+    <div class="todo-heading">
+        <h2 id="todo-title">Afazeres desta página</h2>
+        <span>pequenos passos também contam</span>
+    </div>
+    <div class="todo-form">
+        <label class="visually-hidden" for="{{ task_form.text.id_for_label }}">Novo afazer</label>
+        {{ task_form.text }}
+        <button class="action-button action-button--secondary" type="submit"
+                form="diary-entry-form" name="action" value="add_task">Adicionar</button>
+    </div>
+    {{ task_form.text.errors }}
+    <ul class="todo-list" id="diary-tasks" aria-live="polite">
+        {% for task in page_tasks %}
+        <li class="todo-item{% if task.is_completed %} todo-item--completed{% endif %}">
+            <button class="todo-item-toggle" type="submit" form="diary-entry-form"
+                    name="toggle_task_id" value="{{ task.pk }}" formnovalidate
+                    aria-pressed="{{ task.is_completed|yesno:'true,false' }}"
+                    aria-label="{% if task.is_completed %}Desconcluir{% else %}Concluir{% endif %} tarefa: {{ task.text }}">
+                <span class="todo-item-status" aria-hidden="true">{% if task.is_completed %}<svg viewBox="0 0 24 24"><path d="m6 12.500 4 4 8-9"/></svg>{% endif %}</span>
+            </button>
+            <span class="todo-item-text">{{ task.text }}</span>
+            {% if task.is_completed %}<span class="todo-item-completed-label">Concluído</span>{% endif %}
+        </li>
+        {% empty %}
+        <li class="todo-empty">Os afazeres que você adicionar ficam guardados nesta página.</li>
+        {% endfor %}
+    </ul>
+    {% if task_page and task_page.paginator.num_pages > 1 %}
+    <nav class="todo-pagination" aria-label="Paginação dos afazeres">
+        {% if task_page.has_previous %}
+        <a class="todo-page-link" href="?entry={{ active_entry.pk }}&amp;task_page={{ task_page.previous_page_number }}#diary-tasks" aria-label="Afazeres anteriores"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></a>
+        {% else %}
+        <span class="todo-page-link is-disabled" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></span>
+        {% endif %}
+        <span class="todo-page-status">{{ task_page.number }} de {{ task_page.paginator.num_pages }}</span>
+        {% if task_page.has_next %}
+        <a class="todo-page-link" href="?entry={{ active_entry.pk }}&amp;task_page={{ task_page.next_page_number }}#diary-tasks" aria-label="Próximos afazeres"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></a>
+        {% else %}
+        <span class="todo-page-link is-disabled" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></span>
+        {% endif %}
+    </nav>
+    {% endif %}
+</aside>
+</div>
 {% endblock %}

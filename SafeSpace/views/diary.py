@@ -2,6 +2,7 @@ import uuid
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Q
 from django.http import Http404, HttpRequest, HttpResponse
@@ -21,6 +22,17 @@ def _diary_page_has_content(entry: DiaryEntry, *, has_tasks: bool) -> bool:
         or entry.content.strip()
         or has_tasks
     )
+
+
+def _tasks_redirect(entry: DiaryEntry, task_page: int) -> HttpResponse:
+    return redirect(
+        f"{reverse('diary')}?entry={entry.pk}&task_page={task_page}#diary-tasks"
+    )
+
+
+def _posted_task_page(request: HttpRequest) -> int:
+    value = request.POST.get("task_page", "")
+    return max(1, int(value)) if value.isdigit() else 1
 
 
 def _get_diary_entry(user: User, entry_id: str) -> DiaryEntry | None:
@@ -113,8 +125,9 @@ def diary(request: HttpRequest) -> HttpResponse:
                         raise Http404
                     task.is_completed = not task.is_completed
                     task.save(update_fields=["is_completed", "updated_at"])
-                return redirect(
-                    f"{reverse('diary')}?entry={saved_entry.pk}#diary-tasks"
+                return _tasks_redirect(
+                    saved_entry,
+                    _posted_task_page(request),
                 )
 
         elif action in {"save_entry", "add_task"}:
@@ -144,8 +157,14 @@ def diary(request: HttpRequest) -> HttpResponse:
                             ).count(),
                         )
                     messages.success(request, "Afazer adicionado à página.")
-                    return redirect(
-                        f"{reverse('diary')}?entry={saved_entry.pk}#diary-tasks"
+                    return _tasks_redirect(
+                        saved_entry,
+                        -(
+                            -DiaryTask.objects.filter(
+                                diary_entry=saved_entry
+                            ).count()
+                            // 5
+                        ),
                     )
                 messages.error(
                     request,
@@ -218,6 +237,7 @@ def diary(request: HttpRequest) -> HttpResponse:
         page_number = 1
         has_previous_page = False
         page_tasks: list[DiaryTask] = []
+        task_page_obj = None
         has_content = False
     else:
         previous_entry = _adjacent_diary_entry(
@@ -243,6 +263,9 @@ def diary(request: HttpRequest) -> HttpResponse:
                 "position", "created_at"
             )
         )
+        task_page_obj = Paginator(page_tasks, 5).get_page(
+            request.GET.get("task_page")
+        )
         has_content = _diary_page_has_content(
             active_entry,
             has_tasks=bool(page_tasks),
@@ -256,7 +279,8 @@ def diary(request: HttpRequest) -> HttpResponse:
             "entry_form": entry_form,
             "task_form": task_form,
             "active_entry": active_entry,
-            "page_tasks": page_tasks,
+            "page_tasks": task_page_obj.object_list if task_page_obj else [],
+            "task_page": task_page_obj,
             "page_number": page_number,
             "has_previous_page": has_previous_page,
             "can_advance_page": has_content,

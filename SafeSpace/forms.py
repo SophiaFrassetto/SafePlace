@@ -104,6 +104,7 @@ class DiaryTaskForm(forms.Form):
                 "class": "todo-task-input",
                 "placeholder": "Adicionar um afazer",
                 "required": True,
+                "form": "diary-entry-form",
             }
         ),
     )
