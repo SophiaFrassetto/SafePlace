@@ -7,3 +7,5 @@ private-media/
 .pytest_cache/
 .coverage
 htmlcov/
+
+exams_example/
