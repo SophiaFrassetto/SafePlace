@@ -1,14 +1,21 @@
 {% extends "base_app.html" %}
 {% load static %}
 {% block title %}SOS | SafeSpace{% endblock %}
-{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/sos.css' %}?v=8">{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/sos.css' %}?v=9">{% endblock %}
 {% block page_scripts %}<script src="{% static 'SafeSpace/js/sos.js' %}" defer></script>{% endblock %}
 {% block page_class %}sos-page{% endblock %}
 {% block app_content %}
-<header class="screen-heading">
-    <p class="eyebrow">ACESSO RÁPIDO EM UMA EMERGÊNCIA</p>
-    <h1>Meu SOS</h1>
-    <p>Escolha quais informações do seu perfil poderão aparecer no cartão de emergência.</p>
+<header class="sos-hero paper-card tape">
+    <svg class="sos-hero-art" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+        <circle cx="60" cy="60" r="52" fill="var(--color-pink-surface)" />
+        <path d="M60 18 92 30v26c0 22-14 39-32 46-18-7-32-24-32-46V30z" fill="var(--color-paper)" stroke="var(--color-trans-blue-strong)" stroke-width="4" stroke-linejoin="round" />
+        <path d="M60 46v28M46 60h28" stroke="var(--color-trans-pink)" stroke-width="8" stroke-linecap="round" />
+    </svg>
+    <div class="sos-hero-copy">
+        <p class="eyebrow">ACESSO RÁPIDO EM UMA EMERGÊNCIA</p>
+        <h1>Meu SOS</h1>
+        <p>Escolha quais informações do seu perfil poderão aparecer no cartão de emergência.</p>
+    </div>
 </header>
 
 <aside class="sos-profile-card" aria-labelledby="sos-profile-card-title">
@@ -42,6 +49,9 @@
                 <div class="sos-option">
                     <label class="sos-option-label" for="{{ option.field.id_for_label }}">
                         {{ option.field }}
+                        <span class="sos-option-check" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>
+                        </span>
                         <span class="sos-option-title">
                             {{ option.field.label }}
                             {% if option.available_on_card %}
@@ -55,8 +65,9 @@
                 {{ preferences_form.non_field_errors }}
             </fieldset>
             <p class="sos-privacy-notice">
-                Qualquer pessoa que tiver o QR Code ou o link poderá abrir o cartão e ver os
-                campos escolhidos. Salvar ou gerar novamente as preferências invalida o QR anterior.
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
+                <span>Qualquer pessoa que tiver o QR Code ou o link poderá abrir o cartão e ver os
+                campos escolhidos. Salvar ou gerar novamente as preferências invalida o QR                 anterior.</span>
             </p>
             <div class="sos-actions">
                 <button class="action-button" type="submit" name="save_sos">

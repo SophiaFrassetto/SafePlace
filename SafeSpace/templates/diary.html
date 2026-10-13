@@ -5,10 +5,19 @@
 {% block page_scripts %}<script src="{% static 'SafeSpace/js/diary.js' %}?v=3" defer></script>{% endblock %}
 {% block page_class %}diary-page{% endblock %}
 {% block app_content %}
-<header class="screen-heading">
-    <p class="eyebrow">UM ESPAÇO SÓ SEU</p>
-    <h1>Meu diário</h1>
-    <p>Escreva no seu tempo, uma página de cada vez. Salve para continuar para a próxima.</p>
+<header class="screen-heading diary-heading">
+    <div>
+        <p class="eyebrow">UM ESPAÇO SÓ SEU</p>
+        <h1>Meu diário</h1>
+        <p>Escreva no seu tempo, uma página de cada vez. Salve para continuar para a próxima.</p>
+    </div>
+    <svg class="diary-heading-art" viewBox="0 0 120 120" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="60" cy="60" r="52" fill="#fff1f4" stroke="#f6b3c1" stroke-width="2"/>
+        <path d="m34 86 6-18L78 30l12 12-38 38z" fill="#fffdfd" stroke="#2f4d65" stroke-width="3"/>
+        <path d="m72 36 12 12M40 68l12 12" stroke="#6fd2f8" stroke-width="3"/>
+        <path d="m34 86 18-6-12-12z" fill="#bfe8f8" stroke="#2f4d65" stroke-width="3"/>
+        <path d="M92 78s-12-7-12-16a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 9-12 16-12 16z" fill="#eaf8fd" stroke="#6fd2f8" stroke-width="2.500"/>
+    </svg>
 </header>
 
 <section class="diary-book" aria-label="Caderno do diário">
@@ -17,19 +26,25 @@
         <div class="diary-under-sheet" aria-hidden="true"></div>
         <div class="diary-page-sheet" data-diary-sheet>
             <div class="diary-page-top">
-                <span class="diary-date-label">Data</span>
-                <span class="diary-page-number" data-page-number>{{ page_number }}</span>
+                <span class="diary-date-label">Página</span>
+                <span class="diary-page-number sticker-badge" data-page-number>{{ page_number }}</span>
             </div>
             <form method="post" class="diary-entry-form"
                       data-diary-entry-form>
                 {% csrf_token %}
                 <input type="hidden" name="entry_id" value="{{ active_entry.pk|default_if_none:'' }}">
-                <label class="diary-label" for="{{ entry_form.entry_date.id_for_label }}">Data da página</label>
-                {{ entry_form.entry_date }}
-                {{ entry_form.entry_date.errors }}
-                <label class="diary-label" for="{{ entry_form.mood.id_for_label }}">Humor do dia</label>
-                {{ entry_form.mood }}
-                {{ entry_form.mood.errors }}
+                <div class="diary-meta-row">
+                    <div class="diary-field">
+                        <label class="diary-label" for="{{ entry_form.entry_date.id_for_label }}">Data da página</label>
+                        {{ entry_form.entry_date }}
+                        {{ entry_form.entry_date.errors }}
+                    </div>
+                    <div class="diary-field">
+                        <label class="diary-label" for="{{ entry_form.mood.id_for_label }}">Humor do dia</label>
+                        {{ entry_form.mood }}
+                        {{ entry_form.mood.errors }}
+                    </div>
+                </div>
                 <label class="diary-label" for="{{ entry_form.content.id_for_label }}">O que gostaria de registrar?</label>
                 {{ entry_form.content }}
                 {{ entry_form.content.errors }}
@@ -53,7 +68,7 @@
                                     name="toggle_task_id" value="{{ task.pk }}" formnovalidate
                                     aria-pressed="{{ task.is_completed|yesno:'true,false' }}"
                                     aria-label="{% if task.is_completed %}Desconcluir{% else %}Concluir{% endif %} tarefa: {{ task.text }}">
-                                <span class="todo-item-status" aria-hidden="true">{% if task.is_completed %}✓{% else %}○{% endif %}</span>
+                                <span class="todo-item-status" aria-hidden="true">{% if task.is_completed %}<svg viewBox="0 0 24 24"><path d="m6 12.500 4 4 8-9"/></svg>{% endif %}</span>
                             </button>
                             <span class="todo-item-text">{{ task.text }}</span>
                             {% if task.is_completed %}<span class="todo-item-completed-label">Concluído</span>{% endif %}

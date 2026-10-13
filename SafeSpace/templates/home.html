@@ -1,22 +1,37 @@
-{% extends "base_app.html" %}
+﻿{% extends "base_app.html" %}
 {% load static %}
 {% block title %}Início | SafeSpace{% endblock %}
-{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/home.css' %}?v=6">{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/home.css' %}?v=7">{% endblock %}
 {% block page_class %}home-page{% endblock %}
 {% block app_content %}
-<section class="home-welcome" aria-labelledby="welcome-title">
-    <span class="welcome-decoration" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3.5c.8 2 2.4 3.6 4.4 4.4-2 .8-3.6 2.4-4.4 4.4-.8-2-2.4-3.6-4.4-4.4 2-.8 3.6-2.4 4.4-4.4Z" />
-            <circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none" />
-        </svg>
-    </span>
-    <p class="eyebrow">SEU CANTINHO, NO SEU TEMPO</p>
-    <h1 id="welcome-title">{{ welcome_message }}</h1>
+<section class="home-welcome paper-card tape" aria-labelledby="welcome-title">
+    <div class="home-welcome-copy">
+        <p class="eyebrow">SEU CANTINHO, NO SEU TEMPO</p>
+        <h1 id="welcome-title">{{ welcome_message }}</h1>
+        <p class="home-welcome-lead">Um espaço calmo para escrever, cuidar de si e ter ajuda por perto.</p>
+        <nav class="home-quick-links" aria-label="Atalhos rápidos">
+            <a class="sticker-badge" href="{% url 'diary' %}">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4.5h10.5A2.5 2.5 0 0 1 18 7v13H7a2 2 0 0 1-2-2z"/><path d="M7 4.5v13a2.5 2.5 0 0 1 2.5-2.5H18"/></svg>
+                Escrever no diário
+            </a>
+            <a class="sticker-badge" href="{% url 'health' %}">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 20S4.5 15.5 4.5 10a4 4 0 0 1 7.5-1.9A4 4 0 0 1 19.500 10c0 5.500-7.500 10-7.500 10z"/></svg>
+                Minha saúde
+            </a>
+        </nav>
+    </div>
+    <svg class="home-welcome-art" viewBox="0 0 160 160" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="80" cy="80" r="68" fill="#eaf8fd" stroke="#bfe8f8" stroke-width="2"/>
+        <rect x="44" y="36" width="64" height="86" rx="8" fill="#fffdfd" stroke="#2f4d65" stroke-width="3" transform="rotate(-6 76 79)"/>
+        <path d="M56 62h40M56 76h40M56 90h26" stroke="#bfe8f8" stroke-width="3" transform="rotate(-6 76 79)"/>
+        <path d="M44 48v14M44 72v14M44 96v14" stroke="#f6b3c1" stroke-width="5" transform="rotate(-6 76 79)"/>
+        <path d="M118 112s-20-11-20-26a10 10 0 0 1 20-4 10 10 0 0 1 20 4c0 15-20 26-20 26z" fill="#fff1f4" stroke="#f6b3c1" stroke-width="3"/>
+        <path d="M122 28l2.500 7 7 2.500-7 2.500-2.500 7-2.500-7-7-2.500 7-2.500z" fill="#fffdfd" stroke="#6fd2f8" stroke-width="2"/>
+    </svg>
 </section>
 
 <section class="home-tools-grid" aria-label="Atalhos e afazeres">
-    <section class="home-todo-note" id="home-tasks" aria-labelledby="home-tasks-title">
+    <section class="home-todo-note paper-card tape" id="home-tasks" aria-labelledby="home-tasks-title">
         <header class="home-note-heading">
             <div>
                 <p class="eyebrow">PEQUENOS PASSOS</p>
@@ -52,13 +67,16 @@
             {% endfor %}
         </ul>
         {% else %}
-        <p class="home-todo-empty">
+        <div class="home-todo-empty">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.500 2.800 2.800L16.200 9.500"/></svg>
+            <p>
             {% if has_completed_tasks %}
             Todos os afazeres foram concluídos. Eles continuam guardados nas páginas do diário.
             {% else %}
             Nenhum afazer por aqui. Você pode adicionar um no seu diário.
             {% endif %}
-        </p>
+            </p>
+        </div>
         {% endif %}
         <footer class="home-note-footer">
             <a href="{% url 'diary' %}">Abrir meu diário</a>
@@ -89,7 +107,7 @@
         </span>
         <span class="eyebrow">UM ATALHO PARA EMERGÊNCIAS</span>
         <strong>Aqui está seu QR Code</strong>
-        <span>Acesse as configurações clicando aqui.</span>
+        <span class="home-sos-text">Acesse as configurações clicando aqui.</span>
         <span class="home-sos-link" aria-hidden="true">Configurar meu SOS <span>→</span></span>
     </a>
 </section>

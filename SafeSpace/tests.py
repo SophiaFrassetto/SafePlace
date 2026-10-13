@@ -1,4 +1,4 @@
-from io import BytesIO
+﻿from io import BytesIO
 from pathlib import Path
 from typing import Iterable, cast
 from urllib.parse import urlsplit
@@ -89,7 +89,7 @@ class AuthenticationPageTests(TestCase):
         self.assertContains(response, 'data-app-tabs')
         self.assertNotContains(response, 'data-menu-toggle')
         self.assertContains(response, 'data-notification-toggle')
-        self.assertContains(response, 'SafeSpace/css/home.css?v=6')
+        self.assertContains(response, 'SafeSpace/css/home.css?v=7')
         self.assertContains(response, 'SafeSpace/js/site.js')
         self.assertContains(response, 'class="profile-avatar profile-initials"')
         self.assertContains(response, "Diário")
@@ -472,7 +472,7 @@ class AuthenticationPageTests(TestCase):
         self.assertContains(sos_response, "gerar QR Code")
         self.assertContains(sos_response, "Salvar e gerar QR Code")
         self.assertContains(sos_response, "QR Code")
-        self.assertContains(sos_response, "?v=8")
+        self.assertContains(sos_response, "?v=9")
         self.assertContains(sos_response, "data-print-card")
         self.assertContains(sos_response, "Complete suas informações")
         self.assertContains(sos_response, "Configurar meu perfil")
