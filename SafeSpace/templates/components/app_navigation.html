@@ -1,22 +1,33 @@
 {% load static %}
-<button class="app-menu-backdrop" type="button" aria-label="Fechar menu"
-        data-menu-backdrop hidden></button>
-
 <header class="app-topbar">
-    <div class="app-topbar-start">
-        <button class="icon-button app-menu-toggle" type="button"
-                aria-label="Abrir menu" aria-expanded="false"
-                aria-controls="app-main-menu" data-menu-toggle>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-        </button>
-        <a class="app-brand" href="{% url 'home' %}" aria-label="SafeSpace, início">
-            <img class="app-brand-mark app-brand-icon"
-                 src="{% static 'SafeSpace/img/icon_safe_place.png' %}" alt="">
-            <span>SafeSpace</span>
+    <a class="app-brand" href="{% url 'home' %}" aria-label="SafeSpace, início">
+        <img class="app-brand-icon"
+             src="{% static 'SafeSpace/img/icon_safe_place.png' %}" alt="">
+        <span>SafeSpace</span>
+    </a>
+
+    <nav class="app-tabs" aria-label="Menu principal" data-app-tabs>
+        <a class="app-tab{% if active_page == 'home' %} is-active{% endif %}"
+           href="{% url 'home' %}"{% if active_page == 'home' %} aria-current="page"{% endif %}>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4v-5h-6v5H5a1 1 0 0 1-1-1z"/></svg>
+            <span>Início</span>
         </a>
-    </div>
+        <a class="app-tab{% if active_page == 'diary' %} is-active{% endif %}"
+           href="{% url 'diary' %}"{% if active_page == 'diary' %} aria-current="page"{% endif %}>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h11a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2zM6 18a2 2 0 0 1 2-2h11M10 8h5"/></svg>
+            <span>Diário</span>
+        </a>
+        <a class="app-tab{% if active_page == 'health' %} is-active{% endif %}"
+           href="{% url 'health' %}"{% if active_page == 'health' %} aria-current="page"{% endif %}>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+            <span>Saúde</span>
+        </a>
+        <a class="app-tab app-tab--sos{% if active_page == 'sos' %} is-active{% endif %}"
+           href="{% url 'sos' %}"{% if active_page == 'sos' %} aria-current="page"{% endif %}>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6zM12 9v6M9 12h6"/></svg>
+            <span>SOS</span>
+        </a>
+    </nav>
 
     <div class="app-topbar-actions">
         <div class="app-notification-wrap">
@@ -31,7 +42,10 @@
                      id="app-notification-panel" aria-label="Notificações"
                      data-notification-panel hidden>
                 <h2>Notificações</h2>
-                <p>Quando houver novidades, elas aparecerão aqui.</p>
+                <div class="app-notification-empty">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>
+                    <p>Tudo tranquilo por aqui. Quando houver novidades, elas aparecerão aqui.</p>
+                </div>
             </section>
         </div>
 
@@ -45,27 +59,18 @@
             </summary>
             <div class="app-popover app-profile-popover">
                 <p class="app-profile-popover-name">{{ display_name }}</p>
-                <a class="app-popover-link" href="{% url 'profile' %}">Meu perfil</a>
+                <a class="app-popover-link" href="{% url 'profile' %}">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>
+                    Meu perfil
+                </a>
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button class="app-popover-link app-logout-button" type="submit">Sair da conta</button>
+                    <button class="app-popover-link app-logout-button" type="submit">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4M16 8l4 4-4 4M20 12H9"/></svg>
+                        Sair da conta
+                    </button>
                 </form>
             </div>
         </details>
     </div>
 </header>
-
-<nav class="app-main-menu" id="app-main-menu" aria-label="Menu principal" data-main-menu hidden>
-    <a class="app-menu-link{% if active_page == 'diary' %} is-active{% endif %}"
-       href="{% url 'diary' %}"{% if active_page == 'diary' %} aria-current="page"{% endif %}>
-        <span aria-hidden="true">✎</span> Diário
-    </a>
-    <a class="app-menu-link{% if active_page == 'health' %} is-active{% endif %}"
-       href="{% url 'health' %}"{% if active_page == 'health' %} aria-current="page"{% endif %}>
-        <span aria-hidden="true">♡</span> Saúde
-    </a>
-    <a class="app-menu-link{% if active_page == 'sos' %} is-active{% endif %}"
-       href="{% url 'sos' %}"{% if active_page == 'sos' %} aria-current="page"{% endif %}>
-        <span aria-hidden="true">✚</span> SOS
-    </a>
-</nav>

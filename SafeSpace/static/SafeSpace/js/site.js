@@ -84,9 +84,6 @@ for (const toast of document.querySelectorAll("[data-toast]")) {
     window.setTimeout(dismissToast, 8000);
 }
 
-const menuToggle = document.querySelector("[data-menu-toggle]");
-const mainMenu = document.querySelector("[data-main-menu]");
-const menuBackdrop = document.querySelector("[data-menu-backdrop]");
 const notificationToggle = document.querySelector(
     "[data-notification-toggle]",
 );
@@ -95,32 +92,20 @@ const notificationPanel = document.querySelector(
 );
 const profileMenu = document.querySelector(".app-profile-menu");
 
-if (
-    menuToggle instanceof HTMLButtonElement &&
-    mainMenu instanceof HTMLElement &&
-    menuBackdrop instanceof HTMLButtonElement
-) {
-    const setMenuOpen = (isOpen) => {
-        mainMenu.hidden = !isOpen;
-        menuBackdrop.hidden = !isOpen;
-        menuToggle.setAttribute("aria-expanded", String(isOpen));
-        menuToggle.setAttribute(
-            "aria-label",
-            isOpen ? "Fechar menu" : "Abrir menu",
-        );
-    };
+for (const sheet of document.querySelectorAll("dialog.sheet")) {
+    if (!(sheet instanceof HTMLDialogElement)) {
+        continue;
+    }
 
-    menuToggle.addEventListener("click", () => setMenuOpen(mainMenu.hidden));
-    menuBackdrop.addEventListener("click", () => setMenuOpen(false));
-    mainMenu.addEventListener("click", (event) => {
-        if (event.target instanceof Element && event.target.closest("a")) {
-            setMenuOpen(false);
-        }
+    let pressStartedOnBackdrop = false;
+    sheet.addEventListener("pointerdown", (event) => {
+        pressStartedOnBackdrop = event.target === sheet;
     });
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && !mainMenu.hidden) {
-            setMenuOpen(false);
-            menuToggle.focus();
+    // Um clique no fundo (fora do conteúdo) fecha a janela, como em apps.
+    sheet.addEventListener("click", (event) => {
+        if (event.target === sheet && pressStartedOnBackdrop) {
+            sheet.dispatchEvent(new Event("cancel", { cancelable: true }));
+            sheet.close();
         }
     });
 }

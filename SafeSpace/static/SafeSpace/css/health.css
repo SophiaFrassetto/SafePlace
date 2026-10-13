@@ -1,23 +1,50 @@
 .health-empty {
     display: grid;
-    min-height: 15rem;
-    place-content: center;
     justify-items: center;
     gap: 0.75rem;
-    padding: 2rem;
-    border: 2px dashed var(--color-border);
-    border-radius: var(--radius-card);
-    background: var(--color-paper-translucent);
+    padding-block: clamp(2rem, 6vw, 3.5rem);
     color: var(--color-ink-muted);
     text-align: center;
 }
 
-.health-empty span {
-    color: var(--color-link);
-    font-size: 2rem;
+.health-illustration {
+    width: 8rem;
+    height: 8rem;
+    animation: health-float 5s ease-in-out infinite;
+}
+
+.health-empty h2 {
+    margin: 0;
+    color: var(--color-ink);
+    font-size: var(--text-xl);
 }
 
 .health-empty p {
+    max-width: 32rem;
     margin: 0;
-    line-height: 1.5;
+}
+
+.health-soon {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.health-soon li:nth-child(2) {
+    background: var(--color-blue-surface);
+    transform: rotate(1.5deg);
+}
+
+.health-soon li:nth-child(3) {
+    background: var(--color-lavender-surface);
+}
+
+@keyframes health-float {
+    50% {
+        transform: translateY(-0.4rem);
+    }
 }

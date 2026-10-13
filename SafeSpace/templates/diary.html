@@ -117,10 +117,16 @@
             </svg>
         </button>
     </div>
-    <dialog class="diary-delete-dialog" aria-labelledby="diary-delete-title"
+    <dialog class="diary-delete-dialog sheet" aria-labelledby="diary-delete-title"
             aria-describedby="diary-delete-description" data-delete-dialog>
         <div class="diary-delete-dialog-content">
-            <span class="diary-delete-decoration" aria-hidden="true">✂</span>
+            <span class="diary-delete-decoration" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="6.3" cy="8" r="2.2" />
+                    <circle cx="6.3" cy="16" r="2.2" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.2 9.3 11-5.1M8.2 14.7l11 5.1M10.5 12l8.7-4M10.5 12l8.7 4" />
+                </svg>
+            </span>
             <h2 id="diary-delete-title">Apagar esta página?</h2>
             <p id="diary-delete-description">
                 Esta página e os afazeres dela serão apagados permanentemente.

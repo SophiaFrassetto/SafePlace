@@ -86,8 +86,8 @@ class AuthenticationPageTests(TestCase):
         self.client.force_login(self.create_user())
         response = self.client.get(reverse("home"))
 
-        self.assertContains(response, 'data-menu-toggle')
-        self.assertContains(response, 'data-main-menu')
+        self.assertContains(response, 'data-app-tabs')
+        self.assertNotContains(response, 'data-menu-toggle')
         self.assertContains(response, 'data-notification-toggle')
         self.assertContains(response, 'SafeSpace/css/home.css?v=6')
         self.assertContains(response, 'SafeSpace/js/site.js')

@@ -3,11 +3,12 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#fffdfd">
     <title>{% block title %}SafeSpace{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'SafeSpace/css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'SafeSpace/css/theme.css' %}?v=2">
     {% block page_styles %}{% endblock %}
-    <script src="{% static 'SafeSpace/js/site.js' %}?v=2" defer></script>
+    <script src="{% static 'SafeSpace/js/site.js' %}?v=3" defer></script>
     {% block page_scripts %}{% endblock %}
 </head>
 <body class="app-page {% block page_class %}{% endblock %}">

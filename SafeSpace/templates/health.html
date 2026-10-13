@@ -1,17 +1,27 @@
 {% extends "base_app.html" %}
 {% load static %}
 {% block title %}Saúde | SafeSpace{% endblock %}
-{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/health.css' %}">{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{% static 'SafeSpace/css/health.css' %}?v=2">{% endblock %}
 {% block page_class %}health-page{% endblock %}
 {% block app_content %}
 <header class="screen-heading">
-    <p class="eyebrow">CUIDADO COM VOCÊ</p>
+    <p class="eyebrow">Cuidado com você</p>
     <h1>Saúde</h1>
     <p>Um espaço para organizar suas informações de saúde com cuidado e privacidade.</p>
 </header>
-<section class="health-empty" aria-label="Área de saúde em preparação">
-    <span aria-hidden="true">♡</span>
-    <p>Este espaço está sendo preparado para você.</p>
+<section class="health-empty paper-card tape" aria-label="Área de saúde em preparação">
+    <svg class="health-illustration" viewBox="0 0 120 120" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="60" cy="60" r="52" fill="#eaf8fd" stroke="#bfe8f8" stroke-width="2"/>
+        <path d="M60 94S26 74 26 49a17 17 0 0 1 34-8 17 17 0 0 1 34 8c0 25-34 45-34 45z" fill="#fff1f4" stroke="#f6b3c1" stroke-width="3"/>
+        <path d="M34 58h16l6-12 8 22 6-10h16" stroke="#2f4d65" stroke-width="3"/>
+        <path d="M96 22l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#fffdfd" stroke="#6fd2f8" stroke-width="2"/>
+    </svg>
+    <h2>Este espaço está sendo preparado para você.</h2>
     <p>Mais adiante, poderá reunir exames e seu histórico, além de médicos e contatos de cuidado.</p>
+    <ul class="health-soon" aria-label="Recursos futuros">
+        <li class="sticker-badge">Exames</li>
+        <li class="sticker-badge">Histórico</li>
+        <li class="sticker-badge">Médicos e contatos</li>
+    </ul>
 </section>
 {% endblock %}

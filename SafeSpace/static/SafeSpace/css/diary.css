@@ -264,7 +264,7 @@
 
 .todo-heading span {
     color: var(--color-ink-muted);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
 }
 
 .todo-form {
@@ -350,7 +350,7 @@
 .todo-item-completed-label,
 .todo-empty {
     color: var(--color-ink-muted);
-    font-size: 0.72rem;
+    font-size: 0.8125rem;
 }
 
 .diary-save-row {
@@ -363,13 +363,13 @@
 
 .diary-save-row > span {
     color: var(--color-ink-muted);
-    font-size: 0.78rem;
+    font-size: 0.8125rem;
 }
 
 .diary-entry-form .errorlist {
     margin: 0.3rem 0;
     color: #9f3d55;
-    font-size: 0.82rem;
+    font-size: 0.8125rem;
 }
 
 .diary-corner-controls {
@@ -498,6 +498,11 @@
     transform: rotate(-12deg);
     color: var(--color-trans-pink);
     font-size: 2rem;
+}
+
+.diary-delete-decoration svg {
+    width: 1.9rem;
+    height: 1.9rem;
 }
 
 .diary-delete-dialog h2 {

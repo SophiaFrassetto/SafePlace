@@ -43,7 +43,12 @@
                 {% endif %}
             </div>
         </div>
-        <span class="id-card-decoration" aria-hidden="true">✿</span>
+        <span class="id-card-decoration" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.2c.7 1.7 2.1 3.1 3.8 3.8-1.7.7-3.1 2.1-3.8 3.8-.7-1.7-2.1-3.1-3.8-3.8 1.7-.7 3.1-2.1 3.8-3.8Z" />
+                <circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none" />
+            </svg>
+        </span>
     </article>
 
     <article class="id-card id-card--back" data-print-card>
@@ -72,6 +77,10 @@
             <span class="id-card-field-label">ORIENTAÇÕES EM CASO DE CRISE</span>
             <span class="id-card-field-value">{{ card.crisis_instructions }}</span>
         </section>
-        <span class="id-card-decoration" aria-hidden="true">✦</span>
+        <span class="id-card-decoration" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m12 4 1.9 5.6L19.5 12l-5.6 2L12 20l-1.9-6-5.6-2 5.6-2.4z" />
+            </svg>
+        </span>
     </article>
 </div>

@@ -32,6 +32,11 @@
     font-size: 1.6rem;
 }
 
+.sos-profile-card-icon svg {
+    width: 1.45rem;
+    height: 1.45rem;
+}
+
 .sos-profile-card-copy {
     min-width: 0;
     flex: 1;
@@ -46,7 +51,7 @@
 .sos-profile-card-copy p {
     margin: 0.25rem 0 0;
     color: var(--color-ink-muted);
-    font-size: 0.82rem;
+    font-size: 0.8125rem;
     line-height: 1.5;
 }
 
@@ -129,7 +134,7 @@
 
 .sos-card-availability {
     color: var(--color-ink-soft);
-    font-size: 0.66rem;
+    font-size: 0.8125rem;
     font-weight: 400;
     line-height: 1.35;
 }
@@ -137,7 +142,7 @@
 .sos-option-preview {
     margin: 0.2rem 0 0 1.55rem;
     color: var(--color-ink-soft);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     line-height: 1.4;
     overflow-wrap: anywhere;
 }
@@ -439,6 +444,8 @@
 
 .id-card-decoration {
     position: absolute;
+    display: grid;
+    place-items: center;
     right: 4%;
     bottom: 3%;
     width: 5%;
@@ -448,6 +455,12 @@
     background: var(--color-trans-white);
     box-shadow: var(--shadow-sticker);
     transform: rotate(-35deg);
+}
+
+.id-card-decoration svg {
+    width: 60%;
+    height: 60%;
+    color: var(--color-link);
 }
 
 .sos-card-caption {

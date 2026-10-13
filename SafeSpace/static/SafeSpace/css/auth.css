@@ -44,7 +44,7 @@
     border-radius: 9999px;
     background: var(--color-trans-pink);
     color: var(--color-ink);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     font-weight: 700;
 }
 
@@ -57,6 +57,11 @@
     background: var(--color-trans-blue-strong);
     color: var(--color-ink);
     font-size: 1.125rem;
+}
+
+.sparkle-sticker svg {
+    width: 1.1rem;
+    height: 1.1rem;
 }
 
 .card-header {
@@ -191,7 +196,7 @@
 .field-hint {
     margin: 0.4rem 0 0;
     color: var(--color-ink-muted);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
 }
 
 .password-strength {
@@ -233,7 +238,7 @@
 .password-strength-label {
     margin: 0.35rem 0 0;
     color: var(--color-ink-muted);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
 }
 
 .password-requirements {
@@ -242,7 +247,7 @@
     margin: 0.65rem 0 0;
     padding: 0;
     color: var(--color-ink-muted);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     list-style: none;
 }
 
@@ -279,7 +284,7 @@
 
     .welcome-sticker {
         right: -0.35rem;
-        font-size: 0.6875rem;
+        font-size: 0.8125rem;
     }
 
     .sparkle-sticker {
